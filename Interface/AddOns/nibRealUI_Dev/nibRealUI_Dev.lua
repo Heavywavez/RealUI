@@ -109,6 +109,12 @@ for i = 1, #BlizzAddons do
     end
 end
 
+for i = 1, _G.GetNumAddOns() do
+    local loaded = _G.IsAddOnLoaded(i)
+    if loaded then
+        debug("Pre-loaded:", _G.GetAddOnInfo(i))
+    end
+end
 
 local frame = _G.CreateFrame("Frame")
 frame:RegisterAllEvents()
@@ -137,3 +143,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
         end
     end
 end)
+
+if isInGlue then
+    _G.RealUIDebug = debug
+end

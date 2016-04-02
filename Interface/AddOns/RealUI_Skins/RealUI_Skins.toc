@@ -1,0 +1,11 @@
+## Interface: 60200
+## Title: RealUI Skins
+## Notes: Skins for the default UI and Blizzard's AddOns
+## LoadWith: Blizzard_StoreUI
+
+RealUI_Skins.lua
+
+SharedXML\Shared.xml
+GlueXML\Glue.xml
+FrameXML\Frame.xml
+AddOns\AddOns.xml

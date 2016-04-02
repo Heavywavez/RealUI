@@ -29,9 +29,12 @@
 			"path": "Interface\\AddOns\\nibRealUI_Init"
 		},
 		{
+			"path": "Interface\\AddOns\\RealUI_Skins"
+		},
+		{
 			"file_exclude_patterns":
 			[
-				"*.sublime*",
+				"*.sublime*"
 			],
 			"folder_exclude_patterns":
 			[
