@@ -114,6 +114,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
     end
 end)
 
+--[[ Point Modifications ]]--
 local function ModValue(value)
     return _G.floor(value * private.uiMod + 0.5)
 end
@@ -144,7 +145,23 @@ function Mod.SetWidth(self)
 end
 
 
+--[[ Skins ]]--
+
+function Skin.CreateArrow(type, parent)
+    type = type:lower()
+    local tex = {}
+    for i = 1, 2 do
+        tex[i] = parent:CreateTexture()
+        tex[i]:SetTexture([[Interface\AddOns\nibRealUI_Init\textures\triangle]])
     end
+    if type == "left" then
+        tex[1]:SetTexCoord(1, 1, 1, 0, 0, 1, 0, 0)
+        tex[2]:SetTexCoord(1, 0, 1, 1, 0, 0, 0, 1)
+    elseif type == "right" then
+        tex[1]:SetTexCoord(0, 1, 0, 0, 1, 1, 1, 0)
+        tex[2]:SetTexCoord(0, 0, 0, 1, 1, 0, 1, 1)
+    end
+    return tex
 end
 
 function Skin.Backdrop(self)

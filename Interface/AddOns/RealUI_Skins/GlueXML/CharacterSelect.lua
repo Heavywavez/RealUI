@@ -45,27 +45,32 @@ _G.tinsert(private.GlueXML, function()
         Mod.SetPoint(self)
     end
 
+    do --[[ CharSelectEnterWorldButton ]]--
+        local self = _G.CharSelectEnterWorldButton
+        Skin.GlueButton(self)
+        self:SetSize(Mod.Value(173), Mod.Value(34))
+        self:SetPoint("BOTTOM", 0, Mod.Value(46))
+    end
+
     do --[[ RotateButtons ]]--
         local rotateButtons = {
-            Left = {"TOPRIGHT", "CharSelectEnterWorldButton", "BOTTOM", -3, 7},
-            Right = {"TOPLEFT", "CharacterSelectRotateLeft", "TOPRIGHT", 7, 0}
+            Left = {"TOPRIGHT", "CharSelectEnterWorldButton", "BOTTOM", Mod.Value(-3), Mod.Value(-10)},
+            Right = {"TOPLEFT", "CharacterSelectRotateLeft", "TOPRIGHT", Mod.Value(7), 0}
         }
         for side, anchors in next, rotateButtons do
-            local btn = _G["CharacterSelectRotate"..side]
-            btn:SetSize(25, 25)
-            btn:SetHitRectInsets(0, 0, 0, 0)
-            btn:ClearAllPoints()
-            btn:SetPoint(anchors[1], anchors[2], anchors[3], anchors[4], anchors[5])
+            local self = _G["CharacterSelectRotate"..side]
+            Skin.Button(self)
+            self:SetSize(Mod.Value(24), Mod.Value(24))
+            self:SetHitRectInsets(0, 0, 0, 0)
+            self:ClearAllPoints()
+            self:SetPoint(anchors[1], anchors[2], anchors[3], anchors[4], anchors[5])
 
-            local normTex = btn:GetNormalTexture()
-            normTex:SetTexture(0, 0, 0, 0.5)
-            local pushTex = btn:GetPushedTexture()
-            pushTex:SetTexture(0, 0, 0, 0.8)
-            local highTex = btn:GetHighlightTexture()
-            highTex:SetTexture(1, 1, 1, 0.2)
-            highTex:ClearAllPoints()
-            highTex:SetPoint("TOPLEFT", 1, -1)
-            highTex:SetPoint("BOTTOMRIGHT", -1, 1)
+            local arrow = Skin.CreateArrow(side, self)
+            arrow[1]:SetPoint("TOPLEFT", Mod.Value(4), Mod.Value(-6))
+            arrow[1]:SetPoint("BOTTOMRIGHT", Mod.Value(-4), Mod.Value(12))
+
+            arrow[2]:SetPoint("TOPLEFT", arrow[1], "BOTTOMLEFT")
+            arrow[2]:SetPoint("BOTTOMRIGHT", Mod.Value(-4), Mod.Value(6))
         end
     end
 
