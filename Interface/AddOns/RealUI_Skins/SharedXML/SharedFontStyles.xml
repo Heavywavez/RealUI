@@ -1,0 +1,125 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+	<Font name="RealUI_GameFontNormal" inherits="RealUI_SystemFont_Shadow_Med1" virtual="true">
+		<Color r="1.0" g="0.82" b="0"/>
+	</Font>
+	<Font name="RealUI_GameFontDisable" inherits="RealUI_GameFontNormal" virtual="true">
+		<Color r="0.5" g="0.5" b="0.5"/>
+	</Font>
+	<Font name="RealUI_GameFontHighlight" inherits="RealUI_GameFontNormal" virtual="true">
+		<Color r="1.0" g="1.0" b="1.0"/>
+	</Font>	
+	<Font name="RealUI_GameFontNormalHuge" inherits="RealUI_SystemFont_Shadow_Huge1" virtual="true">
+		<Color r="1.0" g="0.82" b="0"/>
+	</Font>
+	<Font name="RealUI_GameFontHighlightHuge" inherits="RealUI_GameFontNormalHuge" virtual="true">
+		<Color r="1.0" g="1.0" b="1.0"/>
+	</Font>
+	<Font name="RealUI_GameFontDisableHuge" inherits="RealUI_GameFontNormalHuge" virtual="true">
+		<Color r="0.5" g="0.5" b="0.5"/>
+	</Font>	
+	<Font name="RealUI_GameFontNormalSmall" inherits="RealUI_SystemFont_Shadow_Small" virtual="true">
+		<Color r="1.0" g="0.82" b="0"/>
+	</Font>
+	<Font name="RealUI_GameFontWhiteTiny" inherits="RealUI_SystemFont_Tiny" virtual="true">
+		<Color r="1.0" g="1.0" b="1.0"/>
+	</Font>
+	<Font name="RealUI_GameFontNormalMed1" inherits="RealUI_SystemFont_Med2" virtual="true">
+		<Shadow>
+			<Offset>
+				<AbsDimension x="1" y="-1"/>
+			</Offset>
+			<Color r="0" g="0" b="0"/>
+		</Shadow>
+		<Color r="1.0" g="0.82" b="0"/>
+	</Font>
+	<Font name="RealUI_GameFontNormalMed2" inherits="RealUI_SystemFont_Shadow_Med2" virtual="true">
+		<Color r="1.0" g="0.82" b="0"/>
+	</Font>
+	<Font name="RealUI_GameFontNormalLarge" inherits="RealUI_SystemFont_Shadow_Large" virtual="true">
+		<Color r="1.0" g="0.82" b="0"/>
+	</Font>
+	<Font name="RealUI_GameFontNormalLargeOutline" inherits="RealUI_SystemFont_Shadow_Large_Outline" outline="NORMAL" virtual="true">
+		<Color r="1.0" g="0.82" b="0"/>
+	</Font>
+	<Font name="RealUI_GameFontDisableSmall" inherits="RealUI_GameFontNormalSmall" virtual="true">
+		<Color r="0.5" g="0.5" b="0.5"/>
+	</Font>
+	<Font name="RealUI_GameFontNormalHugeOutline2" inherits="RealUI_SystemFont_Shadow_Outline_Huge2" virtual="true">
+		<Color r="1.0" g="0.82" b="0"/>
+	</Font>
+	<Font name="RealUI_GameFontNormalOutline" inherits="RealUI_SystemFont_Shadow_Med1_Outline" virtual="true">
+		<Color r="1.0" g="0.82" b="0"/>
+	</Font>
+	<Font name="RealUI_GameFontHighlightOutline" inherits="RealUI_GameFontNormalOutline" virtual="true">
+		<Color r="1.0" g="1.0" b="1.0"/>
+	</Font>
+	<Font name="RealUI_QuestFontHighlight" inherits="RealUI_SystemFont_Large" virtual="true">
+		<Color r="0" g="0" b="0"/>
+	</Font>
+	<Font name="RealUI_GameFontHighlightMedium" inherits="RealUI_SystemFont_Shadow_Med3" virtual="true">
+		<Color r="1.0" g="1.0" b="1.0"/>
+	</Font>
+	<Font name="RealUI_GameFontBlackMedium" inherits="RealUI_SystemFont_Med3" virtual="true">
+		<Color r="0" g="0" b="0"/>
+	</Font>	
+	<Font name="RealUI_GameFontBlackSmall" inherits="RealUI_SystemFont_Small" virtual="true">
+		<Color r="0" g="0" b="0"/>
+	</Font>
+	<Font name="RealUI_GameFontRed" inherits="RealUI_GameFontNormal" virtual="true">
+		<Color r="1.0" g="0.1" b="0.1"/>
+	</Font>
+	<Font name="RealUI_GameFontGreen" inherits="RealUI_GameFontNormal" virtual="true">
+		<Color r="0" g="1.0" b="0"/>
+	</Font>
+	<Font name="RealUI_GameFontBlack" inherits="RealUI_SystemFont_Med1" virtual="true">
+		<Color r="0" g="0" b="0"/>
+	</Font>
+	<Font name="RealUI_GameFontHighlightMed2" inherits="RealUI_GameFontNormalMed2" virtual="true">
+		<Color r="1.0" g="1.0" b="1.0"/>
+	</Font>
+	<Font name="RealUI_GameFontHighlightLarge" inherits="RealUI_GameFontNormalLarge" virtual="true">
+		<Color r="1.0" g="1.0" b="1.0"/>
+	</Font>
+	<Font name="RealUI_GameFontNormalMed3" inherits="RealUI_SystemFont_Shadow_Med3" virtual="true">
+		<Color r="1.0" g="0.82" b="0"/>
+	</Font>
+	<Font name="RealUI_GameFontDisableLarge" inherits="RealUI_GameFontNormalLarge" virtual="true">
+		<Color r="0.5" g="0.5" b="0.5"/>
+	</Font>	
+	<Font name="RealUI_GameFontHighlightSmall" inherits="RealUI_GameFontNormalSmall" virtual="true">
+		<Color r="1.0" g="1.0" b="1.0"/>
+	</Font>
+	<Font name="RealUI_GameFontHighlightSmallLeft" inherits="RealUI_GameFontHighlightSmall" justifyH="LEFT" virtual="true"/>	
+	<Font name="RealUI_GameFontDisableSmallLeft" inherits="RealUI_GameFontDisableSmall" justifyH="LEFT" virtual="true"/>	
+	<Font name="RealUI_GameFontHighlightSmall2" inherits="RealUI_SystemFont_Small2" virtual="true">
+		<Color r="1.0" g="1.0" b="1.0"/>
+	</Font>
+	<Font name="RealUI_GameFontBlackSmall2" inherits="RealUI_SystemFont_Small2" virtual="true">
+		<Color r="0.0" g="0.0" b="0.0"/>
+	</Font>
+	<Font name="RealUI_GameFontNormalSmall2" inherits="RealUI_SystemFont_Shadow_Small2" virtual="true">
+		<Color r="1.0" g="0.82" b="0"/>
+	</Font>
+	<Font name="RealUI_GameFontNormalLarge2" inherits="RealUI_SystemFont_Shadow_Large2" virtual="true">
+		<Color r="1.0" g="0.82" b="0"/>
+	</Font>
+	<Font name="RealUI_GameFontNormalWTF2" inherits="RealUI_SystemFont_OutlineThick_WTF2" virtual="true">
+		<Color r="1.0" g="0.82" b="0"/>
+	</Font>
+	<Font name="RealUI_GameFontNormalHuge2" inherits="RealUI_SystemFont_Huge2" virtual="true">
+		<Color r="1.0" g="0.82" b="0"/>
+	</Font>
+	<Font name="RealUI_GameFontNormalShadowHuge2" inherits="RealUI_SystemFont_Shadow_Huge2" virtual="true">
+		<Color r="1.0" g="0.82" b="0"/>
+	</Font>	
+	<Font name="RealUI_GameFontNormalHugeOutline" inherits="RealUI_SystemFont_Shadow_Huge1" virtual="true">
+		<Color r="1.0" g="0.82" b="0"/>
+	</Font>	
+	<Font name="RealUI_GameFontNormalHuge3" inherits="RealUI_SystemFont_Shadow_Huge3" virtual="true">
+		<Color r="1.0" g="0.82" b="0"/>
+	</Font>
+	<Font name="RealUI_GameTooltipHeaderText" inherits="RealUI_GameTooltipHeader" justifyH="LEFT" virtual="true">
+		<Color r="1.0" g="1.0" b="1.0"/>
+	</Font>	
+</Ui>	

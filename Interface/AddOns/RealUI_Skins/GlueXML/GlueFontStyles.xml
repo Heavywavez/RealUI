@@ -1,0 +1,179 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+    <Include file="..\SharedXML\SharedFontStyles.xml"/>
+
+    <Script>
+        NORMAL_FONT_COLOR = {r=1.0, g=0.82, b=0};
+        HIGHLIGHT_FONT_COLOR = {r=1.0, g=1.0, b=1.0};
+        GRAY_FONT_COLOR = {r=0.5, g=0.5, b=0.5};
+        GREEN_FONT_COLOR = {r=0.1, g=1.0, b=0.1};
+        RED_FONT_COLOR = {r=1.0, g=0.1, b=0.1};
+        BLUE_FONT_COLOR = {r=0, g=0.749, b=0.953};
+    </Script>
+
+    <!-- This GlueFonts.xml is loaded before GlueFontStyles.xml Set up Font objects to be localized in GlueFonts.xml not GlueFontStyles.xml -->
+
+    <Font name="RealUI_GlueFontNormal" inherits="RealUI_SystemFont_Outline_Med2" virtual="true">
+        <Shadow>
+            <Offset>
+                <AbsDimension x="1" y="-1"/>
+            </Offset>
+            <Color r="0" g="0" b="0"/>
+        </Shadow>
+        <Color r="1.0" g="0.78" b="0"/>
+    </Font>
+    <Font name="RealUI_GlueFontNormalLeft" inherits="RealUI_GlueFontNormal" justifyH="LEFT" virtual="true"/>
+    <Font name="RealUI_GlueFontHighlight" inherits="RealUI_GlueFontNormal" virtual="true">
+        <Color r="1.0" g="1.0" b="1.0"/>
+    </Font>
+    <Font name="RealUI_GlueFontHighlightLeft" inherits="RealUI_GlueFontHighlight" justifyH="LEFT" virtual="true"/>
+    <Font name="RealUI_RealmDownNormal" inherits="RealUI_GlueFontNormalLeft" virtual="true">
+        <Color r="0.5" g="0.5" b="0.5"/>
+    </Font>
+    <Font name="RealUI_RealmDownHighlight" inherits="RealUI_GlueFontHighlightLeft" virtual="true">
+        <Color r="0.8" g="0.8" b="0.8"/>
+    </Font>
+    <Font name="RealUI_RealmInvalidNormal" inherits="RealUI_GlueFontNormalLeft" virtual="true">
+        <Color r="1.0" g="0.1" b="0.1"/>
+    </Font>
+    <Font name="RealUI_RealmCharactersNormal" inherits="RealUI_GlueFontNormalLeft" virtual="true">
+        <Color r="0.1" g="1.0" b="0.1"/>
+    </Font>
+    <Font name="RealUI_RealmNoCharactersNormal" inherits="RealUI_GlueFontNormalLeft" virtual="true">
+        <Color r="1.0" g="0.78" b="0.0"/>
+    </Font>
+    <Font name="RealUI_RealmInvalidHighlight" inherits="RealUI_GlueFontHighlightLeft" virtual="true">
+        <Color r="1.0" g="0.5" b="0.5"/>
+    </Font>
+    <Font name="RealUI_GlueFontDisable" inherits="RealUI_GlueFontNormal" virtual="true">
+        <Color r="0.5" g="0.5" b="0.5"/>
+    </Font>
+    <Font name="RealUI_GlueFontDisableLeft" inherits="RealUI_GlueFontDisable" justifyH="LEFT" virtual="true"/>
+    <Font name="RealUI_GlueFontGreen" inherits="RealUI_GlueFontNormal" virtual="true">
+        <Color r="0.1" g="1.0" b="0.1"/>
+    </Font>
+    <Font name="RealUI_GlueFontRed" inherits="RealUI_GlueFontNormal" virtual="true">
+        <Color r="1.0" g="0.1" b="0.1"/>
+    </Font>
+    <Font name="RealUI_GlueFontLightYellow" inherits="RealUI_GlueFontNormal" virtual="true">
+        <Color r="1.0" g="0.96" b="0.62"/>
+    </Font>
+    <Font name="RealUI_GlueFontBlack" inherits="RealUI_SystemFont_Shadow_Med1" virtual="true">
+        <Color r="0" g="0" b="0"/>
+    </Font>
+    <Font name="RealUI_GlueFontWhite" inherits="RealUI_SystemFont_Shadow_Med1" virtual="true">
+        <Color r="1.0" g="1.0" b="1.0"/>
+    </Font>
+    <Font name="RealUI_GlueFontNormalSmall" inherits="RealUI_SystemFont_Shadow_Med1_Outline" virtual="true">
+        <Color r="1.0" g="0.78" b="0"/>
+    </Font>
+    <Font name="RealUI_GlueFontNormalSmallLeft" inherits="RealUI_GlueFontNormalSmall" justifyH="LEFT" virtual="true"/>
+    <Font name="RealUI_GlueFontNormalExtraSmall" inherits="RealUI_SystemFont_Shadow_Outline_Small" virtual="true">
+        <Color r="1.0" g="0.78" b="0"/>
+    </Font> 
+    <Font name="RealUI_GlueFontNormalExtraSmallLeft" inherits="RealUI_GlueFontNormalExtraSmall" justifyH="LEFT" virtual="true"/>
+    <Font name="RealUI_GlueFontHighlightSmall" inherits="RealUI_GlueFontNormalSmall" virtual="true">
+        <Color r="1.0" g="1.0" b="1.0"/>
+    </Font>
+    <Font name="RealUI_GlueFontHighlightSmallLeft" inherits="RealUI_GlueFontHighlightSmall" justifyH="LEFT" virtual="true"/>
+    <Font name="RealUI_GlueFontHighlightSmallLeftTop" inherits="RealUI_GlueFontHighlightSmallLeft" justifyV="TOP" virtual="true"/>
+    <Font name="RealUI_GlueFontHighlightExtraSmall" inherits="RealUI_SystemFont_Shadow_Outline_Small" virtual="true">
+        <Color r="1.0" g="1.0" b="1.0"/>
+    </Font>
+    <Font name="RealUI_GlueFontHighlightExtraSmallLeft" inherits="RealUI_GlueFontHighlightExtraSmall" justifyH="LEFT" virtual="true"/>
+    <Font name="RealUI_GlueFontHighlightExtraSmallLeftTop" inherits="RealUI_GlueFontHighlightExtraSmallLeft" justifyV="TOP" virtual="true"/>
+    <Font name="RealUI_GlueFontCharacterCreate" inherits="RealUI_GlueFontHighlightSmall" virtual="true" spacing="1.5"/>
+    <Font name="RealUI_GlueFontDisableSmall" inherits="RealUI_GlueFontNormalSmall" virtual="true">
+        <Color r="0.5" g="0.5" b="0.5"/>
+    </Font>
+    <Font name="RealUI_GlueFontDisableSmallLeft" inherits="RealUI_GlueFontDisableSmall" justifyH="LEFT" virtual="true"/>
+    <Font name="RealUI_GlueFontDisableExtraSmall" inherits="RealUI_SystemFont_Shadow_Outline_Small" virtual="true">
+        <Color r="0.5" g="0.5" b="0.5"/>
+    </Font>
+    <Font name="RealUI_GlueFontGreenSmall" inherits="RealUI_GlueFontNormalSmall" virtual="true">
+        <Color r="0.1" g="1.0" b="0.1"/>
+    </Font>
+    <Font name="RealUI_GlueFontRedSmall" inherits="RealUI_GlueFontNormalSmall" virtual="true">
+        <Color r="1.0" g="0.1" b="0.1"/>
+    </Font>
+    <Font name="RealUI_GlueFontLightYellowSmall" inherits="RealUI_GlueFontNormalSmall" virtual="true">
+        <Color r="1.0" g="0.96" b="0.62"/>
+    </Font>
+    <Font name="RealUI_GlueFontNormalLarge" inherits="RealUI_SystemFont_Shadow_Outline_Large" spacing="2" virtual="true">
+        <Color r="1.0" g="0.78" b="0"/>
+    </Font>
+    <Font name="RealUI_GlueFontNormalLargeLeft" inherits="RealUI_GlueFontNormalLarge" justifyH="LEFT" virtual="true"/>
+    <Font name="RealUI_GlueFontNormalLargeLeftTop" inherits="RealUI_GlueFontNormalLargeLeft" justifyV="TOP" virtual="true"/>
+    <Font name="RealUI_GlueFontNormalHuge" inherits="RealUI_SystemFont_Shadow_Outline_Huge2" virtual="true">
+        <Color r="1.0" g="0.78" b="0"/>
+    </Font>
+    <Font name="RealUI_GlueFontNormalGigantor" inherits="RealUI_SystemFont_Shadow_Outline_Gigantor" virtual="true">
+        <Color r="1.0" g="0.78" b="0"/>
+    </Font>
+    <Font name="RealUI_GlueFontHighlightHuge" inherits="RealUI_GlueFontNormalHuge" virtual="true">
+        <Color r="1.0" g="1.0" b="1.0"/>
+    </Font>
+    <Font name="RealUI_GlueFontDisableHuge" inherits="RealUI_GlueFontNormalHuge" virtual="true">
+        <Color r="0.5" g="0.5" b="0.5"/>
+    </Font>
+    <Font name="RealUI_GlueFontHighlightLarge" inherits="RealUI_GlueFontNormalLarge" virtual="true">
+        <Color r="1.0" g="1.0" b="1.0"/>
+    </Font>
+    <Font name="RealUI_GlueFontDisableLarge" inherits="RealUI_GlueFontNormalLarge" virtual="true">
+        <Color r="0.5" g="0.5" b="0.5"/>
+    </Font>
+    <Font name="RealUI_GlueFontGreenLarge" inherits="RealUI_GlueFontNormalLarge" virtual="true">
+        <Color r="0.1" g="1.0" b="0.1"/>
+    </Font>
+    <Font name="RealUI_GlueFontRedLarge" inherits="RealUI_GlueFontNormalLarge" virtual="true">
+        <Color r="1.0" g="0.1" b="0.1"/>
+    </Font>
+    <Font name="RealUI_GlueFontLightYellowLarge" inherits="RealUI_GlueFontNormalLarge" virtual="true">
+        <Color r="1.0" g="0.96" b="0.62"/>
+    </Font>
+    <Font name="RealUI_GlueEditBoxFont" inherits="RealUI_EditBoxFont_Large" virtual="true">
+        <Color r="1.0" g="1.0" b="1.0"/>
+    </Font>
+    
+    <Font name="RealUI_NumberFontNormal" inherits="RealUI_NumberFont_OutlineThick_Med2" virtual="true">
+        <Color r="1.0" g="1.0" b="1.0"/>
+    </Font>
+    <Font name="RealUI_NumberFontNormalSmall" inherits="RealUI_NumberFont_OutlineThick_Med1" virtual="true">
+        <Color r="1.0" g="1.0" b="1.0"/>
+    </Font>
+    <Font name="RealUI_NumberFontNormalSmallGray" inherits="RealUI_NumberFontNormalSmall" outline="THICK" virtual="true">
+        <Color r="0.6" g="0.6" b="0.6"/>
+    </Font>
+    <Font name="RealUI_NumberFontNormalLarge" inherits="RealUI_NumberFont_Outline_Large" virtual="true">
+        <Color r="1.0" g="1.0" b="1.0"/>
+    </Font>
+    
+    <Font name="RealUI_DialogButtonNormalText" inherits="RealUI_SystemFont_Large" virtual="true">
+        <Color r="1.0" g="0.82" b="0.0"/>
+    </Font>
+    <Font name="RealUI_DialogButtonHighlightText" inherits="RealUI_DialogButtonNormalText" virtual="true">
+        <Color r="1.0" g="1.0" b="1.0"/>
+    </Font>
+    <Font name="RealUI_TOSFont" inherits="RealUI_SystemFont_Outline_Med1" virtual="true">
+        <Color r="1.0" g="1.0" b="1.0"/>
+    </Font>
+
+    <Font name="RealUI_CharCopyEditBoxFont" inherits="RealUI_SystemFont_Outline_Med1" virtual="true">
+        <Color r="1.0" g="1.0" b="1.0"/>
+    </Font>
+
+    <Font name="RealUI_OptionsFontLeft" inherits="RealUI_OptionsFont" justifyH="LEFT" virtual="true"/>
+    <Font name="RealUI_OptionsFontSmallLeft" inherits="RealUI_OptionsFontSmall" justifyH="LEFT" virtual="true"/>
+    <Font name="RealUI_OptionsFontHighlightSmallLeft" inherits="RealUI_OptionsFontHighlightSmall" justifyH="LEFT" virtual="true"/>
+    <Font name="RealUI_OptionsFontHighlightSmallLeftTop" inherits="RealUI_OptionsFontHighlightSmallLeft" justifyV="TOP" virtual="true"/>
+    
+    <Font name="RealUI_CharacterCreateTooltipFont" inherits="RealUI_SystemFont_Outline_Med2" virtual="true">
+        <Color r="1.0" g="1.0" b="1.0"/>
+    </Font>
+    <Font name="RealUI_QuestFontNormalLarge" inherits="RealUI_QuestFont_Large" virtual="true">
+        <Color r="1.0" g="0.82" b="0.0"/>
+    </Font>
+    <Font name="RealUI_QuestFontNormalHuge" inherits="RealUI_QuestFont_Huge" virtual="true">
+        <Color r="1.0" g="0.82" b="0.0"/>
+    </Font>
+</Ui>
