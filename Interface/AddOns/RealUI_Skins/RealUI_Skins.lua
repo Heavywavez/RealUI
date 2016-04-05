@@ -23,6 +23,7 @@ private.Skin = Skin
 private.isInGlue = isInGlue
 private.debug = debug
 private.debugMode = false
+private.classColor = { r = 0.0, g = 1.00 , b = 0.59, colorStr = "ff00ff96" }
 
 local locale = _G.GAME_LOCALE or _G.GetLocale()
 local fonts = {}
@@ -102,6 +103,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
         debug("charID", charID)
         debug("GetCharacterInfo", _G.GetCharacterInfo(charID))
         debug("GetIndexFromCharID", _G.GetIndexFromCharID(charID))
+        local _, _, _, class = _G.GetCharacterInfo(charID)
+        private.classColor = _G.RAID_CLASS_COLORS[class]
     else
         debug("GetScreenHeight", _G.GetScreenHeight())
         if not isInGlue then
@@ -140,18 +143,7 @@ function Mod.SetWidth(self)
     self:SetWidth(ModValue(self:GetWidth()))
 end
 
-function Skin.Font(self)
-    local objName = self:GetFontObject():GetName()
-    self:SetFontObject("RealUI_"..objName)
 
-    Mod.SetFont(self)
-end
-function Skin.ButtonFont(self)
-    for _, layer in next, {"Normal", "Highlight", "Disabled"} do
-        local objName = self["Get"..layer.."FontObject"](self):GetName()
-        self["Set"..layer.."FontObject"](self, "RealUI_"..objName)
-
-        Mod.SetFont(self)
     end
 end
 
@@ -161,6 +153,36 @@ function Skin.Backdrop(self)
         edgeFile = [[Interface\BUTTONS\WHITE8X8]],
         edgeSize = 1,
     })
+    self:SetBackdropColor(0, 0, 0, 0.7)
     self:SetBackdropBorderColor(0, 0, 0, 1)
-    self:SetBackdropColor(0, 0, 0, 0.5)
+end
+
+do
+    local function OnEnter(self)
+        if not self:IsEnabled() then return end
+        local cc, mod = private.classColor, 0.6
+        self:SetBackdropColor(cc.r * mod, cc.g * mod, cc.b * mod, 0.7)
+        self:SetBackdropBorderColor(cc.r, cc.g, cc.b, 1)
+    end
+    local function OnLeave(self)
+        self:SetBackdropColor(0, 0, 0, 0.7)
+        self:SetBackdropBorderColor(0, 0, 0, 1)
+    end
+
+    function Skin.Button(self)
+        debug("Button", self:GetName())
+        Skin.Backdrop(self)
+        self:HookScript("OnEnter", OnEnter)
+        self:HookScript("OnLeave", OnLeave)
+        for _, layer in next, {"Normal", "Pushed", "Highlight", "Disabled"} do
+            self["Set"..layer.."Texture"](self, "")
+        end
+    end
+end
+
+function Skin.Font(self)
+    local objName = self:GetFontObject():GetName()
+    self:SetFontObject("RealUI_"..objName)
+
+    Mod.SetFont(self)
 end
