@@ -119,6 +119,7 @@ end
 local frame = _G.CreateFrame("Frame")
 frame:RegisterAllEvents()
 frame:SetScript("OnEvent", function(self, event, ...)
+    debug(event, ...)
     if event == "ADDON_LOADED" then
         local addonName = ...
         if addonName:match("Blizzard") or addonName:match("RealUI") then
@@ -135,7 +136,6 @@ frame:SetScript("OnEvent", function(self, event, ...)
             self:UnregisterEvent("ADDON_LOADED")
         end
     else
-        debug(event, ...)
         debug("GetScreenHeight", _G.GetScreenHeight())
         if not isInGlue then
             debug("UIParent:GetSize", _G.UIParent:GetSize())
