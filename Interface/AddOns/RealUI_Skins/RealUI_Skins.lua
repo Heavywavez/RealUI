@@ -146,6 +146,8 @@ end
 
 
 --[[ Skins ]]--
+local bdBorder, bdMod = 0.1, 0.6
+local bdColor, bdAlpha = bdBorder * bdMod, 0.7
 
 function Skin.CreateArrow(type, parent)
     type = type:lower()
@@ -170,20 +172,20 @@ function Skin.Backdrop(self)
         edgeFile = [[Interface\BUTTONS\WHITE8X8]],
         edgeSize = 1,
     })
-    self:SetBackdropColor(0, 0, 0, 0.7)
-    self:SetBackdropBorderColor(0, 0, 0, 1)
+    self:SetBackdropColor(bdColor, bdColor, bdColor, bdAlpha)
+    self:SetBackdropBorderColor(bdBorder, bdBorder, bdBorder, 1)
 end
 
 do
     local function OnEnter(self)
         if not self:IsEnabled() then return end
-        local cc, mod = private.classColor, 0.6
-        self:SetBackdropColor(cc.r * mod, cc.g * mod, cc.b * mod, 0.7)
+        local cc = private.classColor
+        self:SetBackdropColor(cc.r * bdMod, cc.g * bdMod, cc.b * bdMod, bdAlpha)
         self:SetBackdropBorderColor(cc.r, cc.g, cc.b, 1)
     end
     local function OnLeave(self)
-        self:SetBackdropColor(0, 0, 0, 0.7)
-        self:SetBackdropBorderColor(0, 0, 0, 1)
+        self:SetBackdropColor(bdColor, bdColor, bdColor, bdAlpha)
+        self:SetBackdropBorderColor(bdBorder, bdBorder, bdBorder, 1)
     end
 
     function Skin.Button(self)
@@ -193,6 +195,12 @@ do
         self:HookScript("OnLeave", OnLeave)
         for _, layer in next, {"Normal", "Pushed", "Highlight", "Disabled"} do
             self["Set"..layer.."Texture"](self, "")
+        end
+
+        if self.Left then
+            self.Left:SetTexture("")
+            self.Middle:SetTexture("")
+            self.Right:SetTexture("")
         end
     end
 end

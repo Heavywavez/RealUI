@@ -50,6 +50,7 @@ _G.tinsert(private.GlueXML, function()
         Skin.GlueButton(self)
         self:SetSize(Mod.Value(173), Mod.Value(34))
         self:SetPoint("BOTTOM", 0, Mod.Value(46))
+        self:SetScript("OnUpdate", nil)
     end
 
     do --[[ RotateButtons ]]--
@@ -74,13 +75,77 @@ _G.tinsert(private.GlueXML, function()
         end
     end
 
+    do --[[ CharacterSelectBackButton ]]--
+        local self = _G.CharacterSelectBackButton
+        Skin.GlueButton(self)
+        self:SetSize(Mod.Value(90), Mod.Value(20))
+        self:ClearAllPoints()
+        self:SetPoint("TOPRIGHT", _G.CharacterSelectCharacterFrame, "BOTTOMRIGHT", 0, Mod.Value(-10))
+        self:SetScript("OnUpdate", nil)
+    end
+
+    do --[[ CharacterSelectMenuButton ]]--
+        local self = _G.CharacterSelectMenuButton
+        Skin.GlueButton(self)
+        self:SetSize(Mod.Value(128), Mod.Value(20))
+        self:ClearAllPoints()
+        self:SetPoint("BOTTOMLEFT", Mod.Value(40), Mod.Value(7))
+        self:SetScript("OnUpdate", nil)
+    end
+
+    do --[[ CharacterSelectAddonsButton ]]--
+        local self = _G.CharacterSelectAddonsButton
+        Skin.GlueButton(self)
+        self:SetSize(Mod.Value(128), Mod.Value(20))
+        self:ClearAllPoints()
+        self:SetPoint("BOTTOMLEFT", _G.CharacterSelectMenuButton, "TOPLEFT", 0, Mod.Value(7))
+    end
+
+    do --[[ StoreButton ]]--
+        local self = _G.StoreButton
+        Skin.UIPanelGoldButton(self)
+        self:SetSize(Mod.Value(128), Mod.Value(26))
+        self:ClearAllPoints()
+        self:SetPoint("BOTTOMLEFT", _G.CharacterSelectAddonsButton, "TOPLEFT", 0, Mod.Value(13))
+        self:SetScript("OnUpdate", nil)
+
+        Mod.SetSize(self.Logo)
+    end
+
+    do --[[ CopyCharacterButton ]]--
+        local self = _G.CopyCharacterButton
+        Skin.GlueButton(self)
+        self:SetSize(Mod.Value(164), Mod.Value(40))
+        Mod.SetPoint(self)
+    end
+
+    do --[[ CharacterSelectDeleteButton ]]--
+        local self = _G.CharacterSelectDeleteButton
+        Skin.GlueButton(self)
+        self:ClearAllPoints()
+        self:SetPoint("TOPLEFT", _G.CharacterSelectCharacterFrame, "BOTTOMLEFT", 0, Mod.Value(-10))
+        self:SetPoint("BOTTOMRIGHT", _G.CharacterSelectBackButton, "BOTTOMLEFT", Mod.Value(-15), 0)
+        self:SetScript("OnUpdate", nil)
+    end
+
     do --[[ CharacterSelectCharacterFrame ]]--
-        Mod.SetHeight(_G.CharacterSelectCharacterFrame)
-        Mod.SetPoint(_G.CharacterSelectCharacterFrame)
+        local self = _G.CharacterSelectCharacterFrame
+        Skin.Backdrop(self)
+        self:SetPoint("TOPRIGHT", Mod.Value(-8), Mod.Value(-18))
+
+        Mod.SetPoint(_G.CharSelectRealmName)
+        Skin.Font(_G.CharSelectRealmName)
+        Mod.SetPoint(_G.CharSelectUndeleteLabel)
+        Skin.Font(_G.CharSelectUndeleteLabel)
     end
 
     _G.hooksecurefunc("UpdateCharacterList", function(skipSelect)
-        Mod.SetWidth(_G.CharacterSelectCharacterFrame)
+        local self = _G.CharacterSelectCharacterFrame
+        if self.scrollBar:IsShown() then
+            self:SetPoint("BOTTOMLEFT", _G.CharacterSelectUI, "BOTTOMRIGHT", Mod.Value(-278), Mod.Value(50))
+        else
+            self:SetPoint("BOTTOMLEFT", _G.CharacterSelectUI, "BOTTOMRIGHT", Mod.Value(-258), Mod.Value(50))
+        end
     end)
 end)
 

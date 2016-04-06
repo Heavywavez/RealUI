@@ -3,6 +3,7 @@ xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\FrameXML\UI.xsd">
     <Include file="GlueFonts.xml"/>
     <Include file="GlueFontStyles.xml"/>
+    <Script file="..\SharedXML\SharedTemplates.lua"/>
     <Script file="GlueTemplates.lua"/>
     <Script file="CharacterSelect.lua"/>
 </Ui>
