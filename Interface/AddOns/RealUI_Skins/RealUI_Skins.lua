@@ -7,11 +7,15 @@ local next, ipairs = _G.next, _G.ipairs
 -- RealUI --
 local Mod, Skin = {}, {}
 local isInGlue = _G.InGlue()
-local debug = _G.RealUIDebug or _G.nop
+local debug
 if isInGlue then
     private.GlueXML = {}
+    debug = _G.RealUIDebug or _G.nop
 else
     private.FrameXML = {}
+    function debug(...)
+        _G.RealUI.Debug("Skins", ...)
+    end
 end
 private.DebugXML = {}
 private.AddOns = {}
@@ -22,8 +26,16 @@ private.Skin = Skin
 
 private.isInGlue = isInGlue
 private.debug = debug
-private.debugMode = false
 private.classColor = { r = 0.0, g = 1.00 , b = 0.59, colorStr = "ff00ff96" }
+
+-- debugMode: -1 == default | 0 == -1 + skin
+--             1 == 0 + hidden frames | 2 == 1 - skin
+local debugMode
+if _G.IsAddOnLoaded("nibRealUI_Dev") then
+    debugMode = 1
+else
+    debugMode = 0
+end
 
 local locale = _G.GAME_LOCALE or _G.GetLocale()
 local fonts = {}
@@ -82,14 +94,17 @@ frame:SetScript("OnEvent", function(self, event, ...)
                 _G.SetCVar("uiScale", uiScale)
             end
 
-            if private.debugMode then
-                for index, func in ipairs(private.DebugXML) do
-                    func()
+            if debugMode >= 0 then
+                if debugMode >= 1 then
+                    for index, func in ipairs(private.DebugXML) do
+                        func()
+                    end
                 end
-            else
-                local uiXML = private.GlueXML or private.FrameXML
-                for index, func in ipairs(uiXML) do
-                    func()
+                if debugMode < 2 then
+                    local uiXML = private.GlueXML or private.FrameXML
+                    for index, func in ipairs(uiXML) do
+                        func()
+                    end
                 end
             end
         elseif addonName:match("Blizzard") then
