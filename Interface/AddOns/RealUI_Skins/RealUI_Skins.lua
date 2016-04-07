@@ -3,6 +3,7 @@ local ADDON_NAME, private = ...
 -- Lua Globals --
 local _G = _G
 local next, ipairs = _G.next, _G.ipairs
+local floor = _G.math.floor
 
 -- RealUI --
 local Mod, Skin = {}, {}
@@ -82,11 +83,11 @@ frame:SetScript("OnEvent", function(self, event, ...)
 
             local screenResolutions = {_G.GetScreenResolutions()}
             local uiHieght = screenResolutions[_G.GetCurrentResolution()]:match("%d+x(%d+)")
-            private.uiScale = 768 / uiHieght
+            local uiScale = 768 / uiHieght
             private.uiMod = (uiHieght / 768) * _G.RealUI_SkinsDB.realUIScale
-            debug("UISize", uiHieght, private.uiScale, private.uiMod)
+            debug("UISize", uiHieght, uiScale, private.uiMod)
+            private.uiScale = uiScale
 
-            local uiScale = private.uiScale
             if uiScale < .64 or isInGlue then
                 (_G.UIParent or _G.GlueParent):SetScale(uiScale)
             elseif uiScale ~= _G.tonumber(_G.GetCVar("uiScale")) then
@@ -131,32 +132,34 @@ end)
 
 --[[ Point Modifications ]]--
 local function ModValue(value)
-    return _G.floor(value * private.uiMod + 0.5)
+    return floor(value * private.uiMod + 0.5)
 end
 Mod.Value = ModValue
 
 function Mod.SetFont(self)
-    local fontFile, fontSize, fontFlags = self:GetFont()
-    self:SetFont(fontFile, ModValue(fontSize), fontFlags)
     local xOfs, yOfs = self:GetShadowOffset()
-    self:SetShadowOffset(ModValue(xOfs), ModValue(yOfs))
+    if xOfs > 0 or yOfs > 0 then
+        self:SetShadowOffset(ModValue(xOfs), ModValue(yOfs))
+    end
+    local fontFile, fontSize, fontFlags = self:GetFont()
+    return self:SetFont(fontFile, ModValue(fontSize), fontFlags)
 end
 
 function Mod.SetPoint(self)
     local point, relTo, relPoint, xOfs, yOfs = self:GetPoint()
-    self:SetPoint(point, relTo, relPoint, ModValue(xOfs), ModValue(yOfs))
+    return self:SetPoint(point, relTo, relPoint, ModValue(xOfs), ModValue(yOfs))
 end
 
 function Mod.SetSize(self)
     local width, height = self:GetSize()
-    self:SetSize(ModValue(width), ModValue(height))
+    return self:SetSize(ModValue(width), ModValue(height))
 end
 
 function Mod.SetHeight(self)
-    self:SetHeight(ModValue(self:GetHeight()))
+    return self:SetHeight(ModValue(self:GetHeight()))
 end
 function Mod.SetWidth(self)
-    self:SetWidth(ModValue(self:GetWidth()))
+    return self:SetWidth(ModValue(self:GetWidth()))
 end
 
 
@@ -164,21 +167,40 @@ end
 local bdBorder, bdMod = 0.1, 0.6
 local bdColor, bdAlpha = bdBorder * bdMod, 0.7
 
-function Skin.CreateArrow(type, parent)
-    type = type:lower()
-    local tex = {}
-    for i = 1, 2 do
-        tex[i] = parent:CreateTexture()
-        tex[i]:SetTexture([[Interface\AddOns\nibRealUI_Init\textures\triangle]])
+do
+    local isHoriz = {left = true, right = true}
+    function Skin.CreateArrow(type, parent)
+        type = type:lower()
+        local arrow = _G.CreateFrame("Frame", nil, parent)
+        for i = 1, 2 do
+            arrow[i] = arrow:CreateTexture()
+            arrow[i]:SetTexture([[Interface\AddOns\nibRealUI_Init\textures\triangle]])
+            arrow[i]:SetPoint("TOPLEFT")
+            arrow[i]:SetPoint("BOTTOMRIGHT")
+        end
+        if isHoriz[type] then
+            arrow[1]:SetPoint("BOTTOMRIGHT", arrow, "RIGHT")
+            arrow[2]:SetPoint("TOPLEFT", arrow, "LEFT")
+            if type == "left" then
+                arrow[1]:SetTexCoord(1, 1, 1, 0, 0, 1, 0, 0)
+                arrow[2]:SetTexCoord(1, 0, 1, 1, 0, 0, 0, 1)
+            elseif type == "right" then
+                arrow[1]:SetTexCoord(0, 1, 0, 0, 1, 1, 1, 0)
+                arrow[2]:SetTexCoord(0, 0, 0, 1, 1, 0, 1, 1)
+            end
+        else
+            arrow[1]:SetPoint("BOTTOMRIGHT", arrow, "BOTTOM")
+            arrow[2]:SetPoint("TOPLEFT", arrow, "TOP")
+            if type == "up" then
+                arrow[1]:SetTexCoord(1, 1, 1, 0, 0, 1, 0, 0)
+                arrow[2]:SetTexCoord(0, 1, 0, 0, 1, 1, 1, 0)
+            elseif type == "down" then
+                arrow[1]:SetTexCoord(1, 0, 1, 1, 0, 0, 0, 1)
+                arrow[2]:SetTexCoord(0, 0, 0, 1, 1, 0, 1, 1)
+            end
+        end
+        return arrow
     end
-    if type == "left" then
-        tex[1]:SetTexCoord(1, 1, 1, 0, 0, 1, 0, 0)
-        tex[2]:SetTexCoord(1, 0, 1, 1, 0, 0, 0, 1)
-    elseif type == "right" then
-        tex[1]:SetTexCoord(0, 1, 0, 0, 1, 1, 1, 0)
-        tex[2]:SetTexCoord(0, 0, 0, 1, 1, 0, 1, 1)
-    end
-    return tex
 end
 
 function Skin.Backdrop(self)

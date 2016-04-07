@@ -67,11 +67,8 @@ _G.tinsert(private.GlueXML, function()
             self:SetPoint(anchors[1], anchors[2], anchors[3], anchors[4], anchors[5])
 
             local arrow = Skin.CreateArrow(side, self)
-            arrow[1]:SetPoint("TOPLEFT", Mod.Value(4), Mod.Value(-6))
-            arrow[1]:SetPoint("BOTTOMRIGHT", Mod.Value(-4), Mod.Value(12))
-
-            arrow[2]:SetPoint("TOPLEFT", arrow[1], "BOTTOMLEFT")
-            arrow[2]:SetPoint("BOTTOMRIGHT", Mod.Value(-4), Mod.Value(6))
+            arrow:SetPoint("TOPLEFT", Mod.Value(4), Mod.Value(-6))
+            arrow:SetPoint("BOTTOMRIGHT", Mod.Value(-4), Mod.Value(6))
         end
     end
 
