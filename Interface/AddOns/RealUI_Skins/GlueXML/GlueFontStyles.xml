@@ -1,17 +1,7 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\FrameXML\UI.xsd">
-    <Include file="..\SharedXML\SharedFontStyles.xml"/>
-
-    <Script>
-        NORMAL_FONT_COLOR = {r=1.0, g=0.82, b=0};
-        HIGHLIGHT_FONT_COLOR = {r=1.0, g=1.0, b=1.0};
-        GRAY_FONT_COLOR = {r=0.5, g=0.5, b=0.5};
-        GREEN_FONT_COLOR = {r=0.1, g=1.0, b=0.1};
-        RED_FONT_COLOR = {r=1.0, g=0.1, b=0.1};
-        BLUE_FONT_COLOR = {r=0, g=0.749, b=0.953};
-    </Script>
-
     <!-- This GlueFonts.xml is loaded before GlueFontStyles.xml Set up Font objects to be localized in GlueFonts.xml not GlueFontStyles.xml -->
+    <Include file="..\SharedXML\SharedFontStyles.xml"/>
 
     <Font name="RealUI_GlueFontNormal" inherits="RealUI_SystemFont_Outline_Med2" virtual="true">
         <Shadow>

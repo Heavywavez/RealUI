@@ -14,9 +14,7 @@ if isInGlue then
     debug = _G.RealUIDebug or _G.nop
 else
     private.FrameXML = {}
-    function debug(...)
-        _G.RealUI.Debug("Skins", ...)
-    end
+    debug = _G.RealUI and _G.RealUI.GetDebug("Skins") or _G.nop
 end
 private.DebugXML = {}
 private.AddOns = {}
@@ -67,60 +65,14 @@ local defaults = {
     fonts = fonts
 }
 
-local frame = _G.CreateFrame("Frame")
-frame:RegisterEvent("ADDON_LOADED")
-if isInGlue then
-    frame:RegisterEvent("UPDATE_SELECTED_CHARACTER")
-end
-frame:SetScript("OnEvent", function(self, event, ...)
+local events = _G.CreateFrame("Frame")
+events:RegisterEvent("ADDON_LOADED")
+events:SetScript("OnEvent", function(self, event, ...)
     if not isInGlue then
         debug(event, ...)
     end
-    if event == "ADDON_LOADED" then
-        local addonName = ...
-        if addonName == ADDON_NAME then
-            _G.RealUI_SkinsDB = _G.RealUI_SkinsDB or defaults
-
-            local screenResolutions = {_G.GetScreenResolutions()}
-            local uiHieght = screenResolutions[_G.GetCurrentResolution()]:match("%d+x(%d+)")
-            local uiScale = 768 / uiHieght
-            private.uiMod = (uiHieght / 768) * _G.RealUI_SkinsDB.realUIScale
-            debug("UISize", uiHieght, uiScale, private.uiMod)
-            private.uiScale = uiScale
-
-            if uiScale < .64 or isInGlue then
-                (_G.UIParent or _G.GlueParent):SetScale(uiScale)
-            elseif uiScale ~= _G.tonumber(_G.GetCVar("uiScale")) then
-                _G.SetCVar("useUiScale", 1)
-                _G.SetCVar("uiScale", uiScale)
-            end
-
-            if debugMode >= 0 then
-                if debugMode >= 1 then
-                    for index, func in ipairs(private.DebugXML) do
-                        func()
-                    end
-                end
-                if debugMode < 2 then
-                    local uiXML = private.GlueXML or private.FrameXML
-                    for index, func in ipairs(uiXML) do
-                        func()
-                    end
-                end
-            end
-        elseif addonName:match("Blizzard") then
-            local func = private.AddOns[addonName]
-            if func then
-                func()
-            end
-        end
-    elseif event == "UPDATE_SELECTED_CHARACTER" then
-        local charID = ...
-        debug("charID", charID)
-        debug("GetCharacterInfo", _G.GetCharacterInfo(charID))
-        debug("GetIndexFromCharID", _G.GetIndexFromCharID(charID))
-        local _, _, _, class = _G.GetCharacterInfo(charID)
-        private.classColor = _G.RAID_CLASS_COLORS[class]
+    if events[event] then
+        events[event](events, ...)
     else
         debug("GetScreenHeight", _G.GetScreenHeight())
         if not isInGlue then
@@ -129,6 +81,45 @@ frame:SetScript("OnEvent", function(self, event, ...)
         end
     end
 end)
+function events:ADDON_LOADED(addonName)
+    if addonName == ADDON_NAME then
+        _G.RealUI_SkinsDB = _G.RealUI_SkinsDB or defaults
+
+        local screenResolutions = {_G.GetScreenResolutions()}
+        local uiHieght = screenResolutions[_G.GetCurrentResolution()]:match("%d+x(%d+)")
+        local uiScale = 768 / uiHieght
+        private.uiMod = (uiHieght / 768) * _G.RealUI_SkinsDB.realUIScale
+        debug("UISize", uiHieght, uiScale, private.uiMod)
+        private.uiScale = uiScale
+
+        if uiScale < .64 or isInGlue then
+            (_G.UIParent or _G.GlueParent):SetScale(uiScale)
+        elseif uiScale ~= _G.tonumber(_G.GetCVar("uiScale")) then
+            _G.SetCVar("useUiScale", 1)
+            _G.SetCVar("uiScale", uiScale)
+        end
+
+        if debugMode >= 0 then
+            if debugMode >= 1 then
+                for index, func in ipairs(private.DebugXML) do
+                    func()
+                end
+            end
+            if debugMode < 2 then
+                local uiXML = private.GlueXML or private.FrameXML
+                for index, func in ipairs(uiXML) do
+                    func()
+                end
+            end
+        end
+    elseif addonName:match("Blizzard") then
+        local func = private.AddOns[addonName]
+        if func then
+            func()
+        end
+    end
+end
+private.events = events
 
 --[[ Point Modifications ]]--
 local function ModValue(value)
@@ -146,8 +137,10 @@ function Mod.SetFont(self)
 end
 
 function Mod.SetPoint(self)
-    local point, relTo, relPoint, xOfs, yOfs = self:GetPoint()
-    return self:SetPoint(point, relTo, relPoint, ModValue(xOfs), ModValue(yOfs))
+    for i = 1, self:GetNumPoints() do 
+        local point, relTo, relPoint, xOfs, yOfs = self:GetPoint(i)
+        self:SetPoint(point, relTo, relPoint, ModValue(xOfs), ModValue(yOfs))
+    end
 end
 
 function Mod.SetSize(self)
@@ -166,8 +159,9 @@ end
 --[[ Skins ]]--
 local bdBorder, bdMod = 0.1, 0.6
 local bdColor, bdAlpha = bdBorder * bdMod, 0.7
+private.bdInfo = {bdAlpha, bdMod, bdColor, bdBorder}
 
-do
+do -- Skin.CreateArrow
     local isHoriz = {left = true, right = true}
     function Skin.CreateArrow(type, parent)
         type = type:lower()

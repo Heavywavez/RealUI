@@ -134,7 +134,78 @@ _G.tinsert(private.GlueXML, function()
         Skin.Font(_G.CharSelectRealmName)
         Mod.SetPoint(_G.CharSelectUndeleteLabel)
         Skin.Font(_G.CharSelectUndeleteLabel)
+
+        local prevBtn
+        local function OnEnter(btn)
+            btn:SetBackdropBorderColor(btn.color.r, btn.color.g, btn.color.b, 1)
+        end
+        local function OnLeave(btn)
+            btn:SetBackdropBorderColor(0, 0, 0, 0)
+        end
+        for i = 1, _G.MAX_CHARACTERS_DISPLAYED do
+            self = _G["CharSelectCharacterButton"..i]
+            self.selection:SetTexture("")
+            self:SetHighlightTexture("")
+            self:SetHitRectInsets(0, 0, 0, 0)
+
+            self:HookScript("OnEnter", OnEnter)
+            self:HookScript("OnLeave", OnLeave)
+
+            Skin.Backdrop(self)
+            self:SetBackdropBorderColor(0, 0, 0, 0)
+
+            for _, name in next, {"name", "Info", "Location"} do
+                local font = self.buttonText[name]
+                Skin.Font(font)
+                if name == "name" then
+                    font:SetPoint("TOPLEFT", Mod.Value(8), Mod.Value(-3))
+                else
+                    Mod.SetPoint(font)
+                    Mod.SetSize(font)
+                end
+            end
+
+            self:ClearAllPoints()
+            if i == 1 then
+                self:SetPoint("TOPLEFT", Mod.Value(9), Mod.Value(-64))
+            else
+                self:SetPoint("TOPLEFT", prevBtn, "BOTTOMLEFT", 0, Mod.Value(-5))
+            end
+            self:SetSize(Mod.Value(231), Mod.Value(52))
+            prevBtn = self
+        end
     end
+
+    --local events = private.events
+    --events:RegisterEvent("UPDATE_SELECTED_CHARACTER")
+    --function events:UPDATE_SELECTED_CHARACTER(charID)
+    local bdAlpha, bdMod = private.bdInfo[1], private.bdInfo[2]
+    _G.hooksecurefunc("UpdateCharacterSelection", function(self)
+        debug("UpdateCharacterSelection")
+        for key, value in next, self do
+            debug(key, value)
+        end
+        local charID = _G.GetCharIDFromIndex(self.selectedIndex)
+        debug("charID", charID)
+        debug("GetCharacterInfo", _G.GetCharacterInfo(charID))
+        debug("GetIndexFromCharID", _G.GetIndexFromCharID(charID))
+        local _, _, _, class = _G.GetCharacterInfo(charID)
+        private.classColor = _G.RAID_CLASS_COLORS[class]
+
+        for index = 1, _G.math.min(_G.GetNumCharacters(), _G.MAX_CHARACTERS_DISPLAYED) do
+            local button = _G["CharSelectCharacterButton"..index]
+            if not button.color then
+                local charIDForBtn = _G.GetCharIDFromIndex(index + _G.CHARACTER_LIST_OFFSET)
+                local _, _, _, class = _G.GetCharacterInfo(charIDForBtn)
+                button.color = _G.RAID_CLASS_COLORS[class]
+            end
+            if button.selection:IsShown() and button.color then
+                button:SetBackdropColor(button.color.r * bdMod, button.color.g * bdMod, button.color.b * bdMod, bdAlpha)
+            else
+                button:SetBackdropColor(0, 0, 0, 0)
+            end
+        end
+    end)
 
     _G.hooksecurefunc("UpdateCharacterList", function(skipSelect)
         local self = _G.CharacterSelectCharacterFrame

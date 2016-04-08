@@ -3,13 +3,6 @@
 	<!-- This Fonts.xml is loaded before FontStyles.xml Set up Font objects to be localized in Fonts.xml not FontStyles.xml -->
 	<Include file="..\SharedXML\SharedFontStyles.xml"/>
 
-	<Script>
-		UNIT_NAME_FONT_KOREAN = "Fonts\\2002B.TTF";
-		UNIT_NAME_FONT_CHINESE = "Fonts\\ARKai_T.ttf";
-		UNIT_NAME_FONT_CYRILLIC = "Fonts\\FRIZQT___CYR.TTF";
-		UNIT_NAME_FONT_ROMAN = "Fonts\\FRIZQT__.TTF";
-	</Script>
-
 	<Font name="GameFontNormalLeft" inherits="GameFontNormal" justifyH="LEFT" virtual="true"/>
 	<Font name="GameFontNormalLeftBottom" inherits="GameFontNormalLeft" justifyV="BOTTOM" virtual="true"/>
 	<Font name="GameFontNormalLeftGreen" inherits="GameFontNormalLeft" virtual="true">

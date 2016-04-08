@@ -615,7 +615,7 @@ end
 
 function RealUI:Taint_Logging_Toggle()
     local taintLog = _G.GetCVar("taintLog")
-    _G.SetCVar("taintLog", (taintLog ~= "0") and "0" or "2")
+    _G.SetCVar("taintLog", (taintLog ~= "0") and "0" or "11")
     _G.ReloadUI()
 end
 
