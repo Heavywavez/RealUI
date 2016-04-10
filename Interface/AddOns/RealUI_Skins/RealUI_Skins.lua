@@ -236,6 +236,13 @@ do
     end
 end
 
+function Skin.Icon(self)
+    self:ClearAllPoints()
+    self:SetPoint("TOPLEFT", 1, -1)
+    self:SetPoint("BOTTOMRIGHT", -1, 1)
+    self:SetTexCoord(.08, .92, .08, .92)
+end
+
 function Skin.Font(self)
     local objName = self:GetFontObject():GetName()
     self:SetFontObject("RealUI_"..objName)

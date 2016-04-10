@@ -202,10 +202,7 @@ _G.tinsert(private.GlueXML, function()
             charSvc:ClearAllPoints()
             charSvc:SetPoint("RIGHT", self, "LEFT", Mod.Value(-12), 0)
             charSvc:SetSize(Mod.Value(43), Mod.Value(43))
-            charSvc.VASIcon:ClearAllPoints()
-            charSvc.VASIcon:SetPoint("TOPLEFT", 1, -1)
-            charSvc.VASIcon:SetPoint("BOTTOMRIGHT", -1, 1)
-            charSvc.VASIcon:SetTexCoord(.08, .92, .08, .92)
+            Skin.Icon(charSvc.VASIcon)
             charSvc.GoldBorder:SetTexture("")
             prevBtn = self
         end
