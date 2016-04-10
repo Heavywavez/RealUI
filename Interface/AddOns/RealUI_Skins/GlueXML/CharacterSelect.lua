@@ -132,10 +132,16 @@ _G.tinsert(private.GlueXML, function()
         Skin.Backdrop(self)
         self:SetPoint("TOPRIGHT", Mod.Value(-8), Mod.Value(-18))
 
-        Mod.SetPoint(_G.CharSelectRealmName)
         Skin.Font(_G.CharSelectRealmName)
-        Mod.SetPoint(_G.CharSelectUndeleteLabel)
+        Mod.SetPoint(_G.CharSelectRealmName)
+        _G.CharSelectRealmName:SetHeight(Mod.Value(7))
         Skin.Font(_G.CharSelectUndeleteLabel)
+        Mod.SetPoint(_G.CharSelectUndeleteLabel)
+
+        Skin.GlueButton(_G.CharSelectChangeRealmButton)
+        _G.CharSelectChangeRealmButton:SetPoint("TOP", _G.CharSelectRealmName, "BOTTOM", 0, Mod.Value(-9))
+        _G.CharSelectChangeRealmButton:SetSize(Mod.Value(120), Mod.Value(18))
+        _G.CharSelectChangeRealmButton:SetScript("OnUpdate", nil)
 
         local prevBtn
         local function OnEnter(btn)
@@ -189,6 +195,18 @@ _G.tinsert(private.GlueXML, function()
 
             self:HookScript("OnEnter", OnEnter)
             self:HookScript("OnLeave", OnLeave)
+
+            local charSvc = _G["CharSelectPaidService"..i]
+            Skin.Button(charSvc)
+            charSvc:HookScript("OnEnter", OnEnter)
+            charSvc:ClearAllPoints()
+            charSvc:SetPoint("RIGHT", self, "LEFT", Mod.Value(-12), 0)
+            charSvc:SetSize(Mod.Value(43), Mod.Value(43))
+            charSvc.VASIcon:ClearAllPoints()
+            charSvc.VASIcon:SetPoint("TOPLEFT", 1, -1)
+            charSvc.VASIcon:SetPoint("BOTTOMRIGHT", -1, 1)
+            charSvc.VASIcon:SetTexCoord(.08, .92, .08, .92)
+            charSvc.GoldBorder:SetTexture("")
             prevBtn = self
         end
     end
@@ -223,6 +241,7 @@ _G.tinsert(private.GlueXML, function()
                 local btnCharID = _G.GetCharIDFromIndex(index + _G.CHARACTER_LIST_OFFSET)
                 local _, _, _, btnClass = _G.GetCharacterInfo(btnCharID)
                 button.rUIColor = _G.RAID_CLASS_COLORS[btnClass]
+                _G["CharSelectPaidService"..index].rUIColor = button.rUIColor
             end
             if button.selection:IsShown() and button.rUIColor then
                 button:SetBackdropColor(button.rUIColor.r * bdMod, button.rUIColor.g * bdMod, button.rUIColor.b * bdMod, bdAlpha)
