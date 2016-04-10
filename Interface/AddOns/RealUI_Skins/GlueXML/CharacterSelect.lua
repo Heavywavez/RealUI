@@ -13,6 +13,7 @@ local debug = private.debug
 
 _G.tinsert(private.GlueXML, function()
     _G.CharacterSelect:SetScale(private.uiScale)
+    local DEFAULT_TEXT_OFFSET, MOVING_TEXT_OFFSET = 8, 16
 
     do --[[ CharacterName ]]--
         Mod.SetPoint(_G.CharSelectCharacterName)
@@ -96,6 +97,7 @@ _G.tinsert(private.GlueXML, function()
         self:SetSize(Mod.Value(128), Mod.Value(20))
         self:ClearAllPoints()
         self:SetPoint("BOTTOMLEFT", _G.CharacterSelectMenuButton, "TOPLEFT", 0, Mod.Value(7))
+        self:SetScript("OnUpdate", nil)
     end
 
     do --[[ StoreButton ]]--
@@ -137,20 +139,30 @@ _G.tinsert(private.GlueXML, function()
 
         local prevBtn
         local function OnEnter(btn)
-            btn:SetBackdropBorderColor(btn.color.r, btn.color.g, btn.color.b, 1)
+            btn:SetBackdropBorderColor(btn.rUIColor.r, btn.rUIColor.g, btn.rUIColor.b, 1)
         end
         local function OnLeave(btn)
-            btn:SetBackdropBorderColor(0, 0, 0, 0)
+            if not (btn.upButton:IsMouseOver() or btn.downButton:IsMouseOver()) then
+                btn:SetBackdropBorderColor(0, 0, 0, 0)
+            end
         end
+        local moveButtons = {
+            up = {"TOPRIGHT", Mod.Value(-3), Mod.Value(-3)},
+            down = {"BOTTOMRIGHT", Mod.Value(-3), Mod.Value(3)}
+        }
         for i = 1, _G.MAX_CHARACTERS_DISPLAYED do
             self = _G["CharSelectCharacterButton"..i]
+            self:SetSize(Mod.Value(231), Mod.Value(52))
+            self:SetHitRectInsets(0, 0, 0, 0)
+            self:ClearAllPoints()
+            if i == 1 then
+                self:SetPoint("TOPLEFT", Mod.Value(9), Mod.Value(-64))
+            else
+                self:SetPoint("TOPLEFT", prevBtn, "BOTTOMLEFT", 0, Mod.Value(-5))
+            end
+
             self.selection:SetTexture("")
             self:SetHighlightTexture("")
-            self:SetHitRectInsets(0, 0, 0, 0)
-
-            self:HookScript("OnEnter", OnEnter)
-            self:HookScript("OnLeave", OnLeave)
-
             Skin.Backdrop(self)
             self:SetBackdropBorderColor(0, 0, 0, 0)
 
@@ -158,27 +170,39 @@ _G.tinsert(private.GlueXML, function()
                 local font = self.buttonText[name]
                 Skin.Font(font)
                 if name == "name" then
-                    font:SetPoint("TOPLEFT", Mod.Value(8), Mod.Value(-3))
+                    font:SetPoint("TOPLEFT", Mod.Value(DEFAULT_TEXT_OFFSET), Mod.Value(-3))
                 else
                     Mod.SetPoint(font)
                     Mod.SetSize(font)
                 end
             end
 
-            self:ClearAllPoints()
-            if i == 1 then
-                self:SetPoint("TOPLEFT", Mod.Value(9), Mod.Value(-64))
-            else
-                self:SetPoint("TOPLEFT", prevBtn, "BOTTOMLEFT", 0, Mod.Value(-5))
+            for dir, anchors in next, moveButtons do
+                local btn = self[dir.."Button"]
+                Skin.Button(btn)
+                btn:SetSize(Mod.Value(22), Mod.Value(22))
+                btn:SetPoint(anchors[1], anchors[2], anchors[3])
+                local arrow = Skin.CreateArrow(dir, btn)
+                arrow:SetPoint("TOPLEFT", Mod.Value(5), Mod.Value(-8))
+                arrow:SetPoint("BOTTOMRIGHT", Mod.Value(-5), Mod.Value(8))
             end
-            self:SetSize(Mod.Value(231), Mod.Value(52))
+
+            self:HookScript("OnEnter", OnEnter)
+            self:HookScript("OnLeave", OnLeave)
             prevBtn = self
         end
     end
 
-    --local events = private.events
-    --events:RegisterEvent("UPDATE_SELECTED_CHARACTER")
-    --function events:UPDATE_SELECTED_CHARACTER(charID)
+    _G.hooksecurefunc("CharacterSelectButton_OnDragStart", function(self)
+        self.buttonText.name:SetPoint("TOPLEFT", Mod.Value(MOVING_TEXT_OFFSET), Mod.Value(-3));
+    end)
+    _G.hooksecurefunc("CharacterSelectButton_OnDragStop", function(self)
+        for index = 1, _G.MAX_CHARACTERS_DISPLAYED do
+            local button = _G["CharSelectCharacterButton"..index];
+            button.buttonText.name:SetPoint("TOPLEFT", Mod.Value(DEFAULT_TEXT_OFFSET), Mod.Value(-3));
+        end
+    end)
+
     local bdAlpha, bdMod = private.bdInfo[1], private.bdInfo[2]
     _G.hooksecurefunc("UpdateCharacterSelection", function(self)
         debug("UpdateCharacterSelection")
@@ -192,17 +216,23 @@ _G.tinsert(private.GlueXML, function()
         local _, _, _, class = _G.GetCharacterInfo(charID)
         private.classColor = _G.RAID_CLASS_COLORS[class]
 
+        local resetColor = self.orderChanged or self.currentBGTag ~= _G.GetSelectBackgroundModel(charID)
         for index = 1, _G.math.min(_G.GetNumCharacters(), _G.MAX_CHARACTERS_DISPLAYED) do
             local button = _G["CharSelectCharacterButton"..index]
-            if not button.color then
-                local charIDForBtn = _G.GetCharIDFromIndex(index + _G.CHARACTER_LIST_OFFSET)
-                local _, _, _, class = _G.GetCharacterInfo(charIDForBtn)
-                button.color = _G.RAID_CLASS_COLORS[class]
+            if not button.rUIColor or resetColor then
+                local btnCharID = _G.GetCharIDFromIndex(index + _G.CHARACTER_LIST_OFFSET)
+                local _, _, _, btnClass = _G.GetCharacterInfo(btnCharID)
+                button.rUIColor = _G.RAID_CLASS_COLORS[btnClass]
             end
-            if button.selection:IsShown() and button.color then
-                button:SetBackdropColor(button.color.r * bdMod, button.color.g * bdMod, button.color.b * bdMod, bdAlpha)
+            if button.selection:IsShown() and button.rUIColor then
+                button:SetBackdropColor(button.rUIColor.r * bdMod, button.rUIColor.g * bdMod, button.rUIColor.b * bdMod, bdAlpha)
             else
                 button:SetBackdropColor(0, 0, 0, 0)
+            end
+            if button:IsMouseOver() and button.rUIColor then
+                button:SetBackdropBorderColor(button.rUIColor.r, button.rUIColor.g, button.rUIColor.b, 1)
+            else
+                button:SetBackdropBorderColor(0, 0, 0, 0)
             end
         end
     end)
@@ -213,6 +243,16 @@ _G.tinsert(private.GlueXML, function()
             self:SetPoint("BOTTOMLEFT", _G.CharacterSelectUI, "BOTTOMRIGHT", Mod.Value(-278), Mod.Value(50))
         else
             self:SetPoint("BOTTOMLEFT", _G.CharacterSelectUI, "BOTTOMRIGHT", Mod.Value(-258), Mod.Value(50))
+        end
+        for index = 1, _G.math.min(_G.GetNumCharacters(), _G.MAX_CHARACTERS_DISPLAYED) do
+            local button = _G["CharSelectCharacterButton"..index]
+            if ( _G.CharacterSelect.draggedIndex ) then
+                if ( _G.CharacterSelect.draggedIndex == button.index ) then
+                    button.buttonText.name:SetPoint("TOPLEFT", Mod.Value(MOVING_TEXT_OFFSET), Mod.Value(-3));
+                else
+                    button.buttonText.name:SetPoint("TOPLEFT", Mod.Value(DEFAULT_TEXT_OFFSET), Mod.Value(-3));
+                end
+            end
         end
     end)
 end)
