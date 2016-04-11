@@ -480,9 +480,6 @@ function MyContainer:OnCreate(name, settings)
 		if (tBag or tBank) then
 			local close = CreateFrame("Button", nil, self, "UIPanelCloseButton")
 			close:SetPoint("TOPRIGHT", 8, 8)
-			if Aurora and Aurora[1].ReskinClose then
-				Aurora[1].ReskinClose(close, "TOPRIGHT", self, "TOPRIGHT", 1, 1)
-			end
 			close:SetScript("OnClick", function(self) if cbNivaya:AtBank() then CloseBankFrame() else CloseAllBags() end end)
 		end
 	end

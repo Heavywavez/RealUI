@@ -5,7 +5,7 @@
 ## Version: 8.1 r15c
 ## SavedVariables: nibRealUIDB
 ## SavedVariablesPerCharacter: nibRealUICharacter
-## RequiredDeps: !Aurora_RealUI
+## RequiredDeps: nibRealUI_Init, RealUI_Skins
 ## OptionalDeps: Ace3, AceGUI-3.0-SharedMediaWidgets, Bartender4, Grid2, Raven, SharedMedia
 ## X-oUF: oUFembed
 ## X-Website: http://www.wowinterface.com/downloads/fileinfo.php?id=16068

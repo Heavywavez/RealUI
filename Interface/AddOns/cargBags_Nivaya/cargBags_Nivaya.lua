@@ -739,10 +739,6 @@ Event:SetScript('OnEvent', function(self, event, ...)
 				NivayacBniv_Bank.reagentBtn:Show()
 				buyReagent:Hide()
 			end)
-			if Aurora then
-				local F = Aurora[1]
-				F.Reskin(buyReagent)
-			end
 			buyReagent:RegisterEvent("REAGENTBANK_PURCHASED")
 		end
 

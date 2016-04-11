@@ -11,6 +11,7 @@ local ace = _G.LibStub("AceAddon-3.0")
 local RealUI = private.RealUI
 local L = RealUI.L
 local db
+local classColor = RealUI.classColor
 
 local MODNAME = "AddonControl"
 local AddonControl = RealUI:NewModule(MODNAME, "AceEvent-3.0")
@@ -97,9 +98,6 @@ end
 function AddonControl:CreateOptionsFrame()
     if self.options then return end
 
-    local C
-    if _G.Aurora then C = _G.Aurora[2] end
-
     self.options = RealUI:CreateWindow("RealUIAddonControlOptions", 330, 240, true, true)
     local acO = self.options
         acO:SetPoint("CENTER", _G.UIParent, "CENTER", 0, 0)
@@ -125,28 +123,28 @@ function AddonControl:CreateOptionsFrame()
         lAddon:SetPoint("TOPLEFT", acO, "TOPLEFT", 12, -30)
         lAddon:SetText("AddOn")
         lAddon:SetWidth(130)
-        lAddon:SetTextColor(C.r, C.g, C.b)
+        lAddon:SetTextColor(classColor.r, classColor.g, classColor.b)
 
     -- Label Base
     local lBase = RealUI:CreateFS(acO, "CENTER", "small")
         lBase:SetPoint("LEFT", lAddon, "RIGHT", 0, 0)
         lBase:SetText("Base")
         lBase:SetWidth(40)
-        lBase:SetTextColor(C.r, C.g, C.b)
+        lBase:SetTextColor(classColor.r, classColor.g, classColor.b)
 
     -- Label Layout
     local lLayout = RealUI:CreateFS(acO, "CENTER", "small")
         lLayout:SetPoint("LEFT", lBase, "RIGHT", 0, 0)
         lLayout:SetText("Layout")
         lLayout:SetWidth(40)
-        lLayout:SetTextColor(C.r, C.g, C.b)
+        lLayout:SetTextColor(classColor.r, classColor.g, classColor.b)
 
     -- Label Position
     local lPosition = RealUI:CreateFS(acO, "CENTER", "small")
         lPosition:SetPoint("LEFT", lLayout, "RIGHT", 0, 0)
         lPosition:SetText("Pos")
         lPosition:SetWidth(40)
-        lPosition:SetTextColor(C.r, C.g, C.b)
+        lPosition:SetTextColor(classColor.r, classColor.g, classColor.b)
 
     local acAddonSect = RealUI:CreateBDFrame(acO)
     local bgColor = RealUI.media.background

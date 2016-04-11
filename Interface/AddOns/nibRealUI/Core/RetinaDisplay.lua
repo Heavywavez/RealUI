@@ -88,12 +88,6 @@ local function CreateRDOptions()
         dbg.tags.retinaDisplay.checked = true
         _G.ReloadUI()
     end)
-
-    if _G.Aurora then
-        local F = _G.Aurora[1]
-        F.Reskin(RDF.accept)
-        F.Reskin(RDF.cancel)
-    end
 end
 
 function RealUI:InitRetinaDisplayOptions()

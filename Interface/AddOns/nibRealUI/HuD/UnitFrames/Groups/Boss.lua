@@ -6,11 +6,11 @@ local floor = _G.math.floor
 
 -- Libs --
 local oUF = _G.oUFembed
-local F = _G.Aurora[1]
 
 -- RealUI --
 local RealUI = private.RealUI
 local db, ndb, ndbc
+local Skin = _G.RealUI_Skins.Skin
 
 local UnitFrames = RealUI:GetModule("UnitFrames")
 
@@ -52,7 +52,7 @@ local function AttachStatusBar(icon, unit)
     sBarBG:SetPoint("TOPLEFT", sBar, -1, 1)
     sBarBG:SetPoint("BOTTOMRIGHT", sBar, 1, -1)
     sBarBG:SetFrameLevel(icon:GetFrameLevel() + 1)
-    F.CreateBD(sBarBG)
+    Skin.Backdrop(sBarBG)
 
     local timeStr = icon:CreateFontString(nil, "OVERLAY")
     timeStr:SetFontObject(_G.RealUIFont_PixelSmall)
@@ -77,7 +77,6 @@ local function CreateHealthBar(parent)
             self:SetValue(max - self:GetValue())
         end
     end
-
 end
 
 local function CreateTags(parent)
@@ -126,15 +125,17 @@ end
 
 local function CreateAuras(parent)
     UnitFrames:debug("Boss:CreateAuras")
+    local size = parent:GetHeight()
     local auras = _G.CreateFrame("Frame", nil, parent)
-    auras:SetPoint("BOTTOMRIGHT", parent, "BOTTOMLEFT", (22) * ((db.boss.buffCount + db.boss.debuffCount) - 1) + 4, 1)
-    auras:SetWidth((23) * (db.boss.buffCount + db.boss.debuffCount))
-    auras:SetHeight(22)
-    auras.size = parent:GetHeight() - 2
-    auras.spacing = 3
+    auras:SetPoint("BOTTOMRIGHT", parent, "BOTTOMLEFT", -1, 0)
+    auras:SetWidth(size * (db.boss.buffCount + db.boss.debuffCount) + 1)
+    auras:SetHeight(size)
+    auras.size = size
+    auras.spacing = 1
     auras.numBuffs = db.boss.buffCount
     auras.numDebuffs = db.boss.debuffCount
     auras["growth-x"] = "LEFT"
+    auras.initialAnchor = "BOTTOMRIGHT"
     auras.disableCooldown = true
     auras.CustomFilter = function(self, ...)
         --    unit, icon, name, rank, texture, count, dtype, duration, timeLeft, caster, isStealable, shouldConsolidate, spellID, canApplyAura, isBossDebuff
@@ -165,7 +166,8 @@ local function CreateAuras(parent)
     end
     auras.PostCreateIcon = function(self, button)
         UnitFrames:debug("Boss:PostCreateIcon", self, button)
-        F.ReskinIcon(button.icon)
+        Skin.Backdrop(button)
+        Skin.Icon(button.icon)
         button.count:SetFontObject(_G.RealUIFont_PixelSmall)
         local countY = ndbc.resolution == 1 and -1.5 or -2.5
         button.count:SetPoint("TOPRIGHT", button, "TOPRIGHT", 1.5, countY)
@@ -215,7 +217,7 @@ end
 
 local function CreateBoss(self)
     self:SetSize(135, 24)
-    F.CreateBD(self, RealUI.media.background[4])
+    Skin.Backdrop(self)
 
     CreateHealthBar(self)
     CreateTags(self)

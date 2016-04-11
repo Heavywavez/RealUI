@@ -4,9 +4,6 @@ local ADDON_NAME, private = ...
 local _G = _G
 local next, type = _G.next, _G.type
 
--- Libs --
-local C = _G.Aurora[2]
-
 -- RealUI --
 local RealUI = private.RealUI
 local L = RealUI.L
@@ -471,7 +468,7 @@ function RealUI:PLAYER_ENTERING_WORLD()
         if region:GetObjectType() == "FontString" then
             if region:GetText() == _G.MAINMENU_BUTTON then
                 region:SetFontObject(_G.RealUIFont_PixelSmall)
-                region:SetTextColor(C.r, C.g, C.b)
+                region:SetTextColor(RealUI.classColor.r, RealUI.classColor.g, RealUI.classColor.b)
                 region:SetShadowColor(0, 0, 0, 0)
                 region:SetPoint("TOP", _G.GameMenuFrame, "TOP", 0, -10.5)
             end

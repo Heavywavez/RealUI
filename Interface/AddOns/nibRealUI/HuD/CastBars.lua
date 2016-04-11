@@ -8,6 +8,7 @@ local next = _G.next
 local RealUI = private.RealUI
 local round = RealUI.Round
 local db, ndb
+local Skin = _G.RealUI_Skins.Skin
 
 local MODNAME = "CastBars"
 local CastBars = RealUI:NewModule(MODNAME, "AceEvent-3.0", "AceTimer-3.0")
@@ -63,14 +64,14 @@ end
 function CastBars:SetAnchors(castbar, unit)
     CastBars:debug("Set config cast", unit)
 
-    local iconX, iconY = 3, -2
+    local iconX, iconY = 1, -1
     local iconPoint, iconRelPoint = "TOP", "BOTTOM"
     if not db.text.textOnBottom then
         iconPoint, iconRelPoint = "BOTTOM", "TOP"
         iconY = -iconY
     end
 
-    local textX, textY = 0, -2
+    local textX, textY = 1, -2
     local textPoint, textRelPoint = "TOP", "TOP"
     local timePoint, timeRelPoint = "BOTTOM", "BOTTOM"
 
@@ -350,10 +351,15 @@ function CastBars:CreateCastBars(unitFrame, unit)
         Castbar:SetReverseFill(true)
     end
 
-    local Icon = Castbar:CreateTexture(nil, "OVERLAY")
+    local Icon = _G.CreateFrame("Frame", nil, Castbar)
     Castbar.Icon = Icon
     Icon:SetSize(unitDB.icon, unitDB.icon)
-    _G.Aurora[1].ReskinIcon(Icon)
+    Skin.Backdrop(Icon)
+    function Icon:SetTexture(texture)
+        Icon.tex:SetTexture(texture)
+    end
+    Icon.tex = Icon:CreateTexture(nil, "OVERLAY")
+    Skin.Icon(Icon.tex)
 
     local Text = Castbar:CreateFontString(nil, "OVERLAY")
     Castbar.Text = Text

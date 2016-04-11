@@ -7,9 +7,6 @@ local tinsert, tsort = _G.table.insert, _G.table.sort
 local next, type, select = _G.next, _G.type, _G.select
 local print, tonumber = _G.print, _G.tonumber
 
--- Libs --
-local F = _G.Aurora[1]
-
 -- RealUI --
 local RealUI = private.RealUI
 local L = RealUI.L
@@ -301,10 +298,6 @@ function RealUI:CreateCheckbox(name, parent, label, side, size)
     cbg:SetBackdropColor(0.8, 0.8, 0.8, 0.15)
     cbg:SetFrameLevel(f:GetFrameLevel() - 1)
 
-    if F and F.ReskinCheck then
-        F.ReskinCheck(f)
-    end
-
     return f
 end
 
@@ -328,10 +321,6 @@ function RealUI:CreateTextButton(text, parent, template, width, height, small)
     end
     f:SetText(text)
 
-    if F and F.Reskin then
-        F.Reskin(f)
-    end
-
     return f
 end
 
@@ -354,9 +343,6 @@ function RealUI:CreateWindow(name, width, height, closeOnEsc, draggable, hideClo
             f.close = _G.CreateFrame("Button", nil, f, "UIPanelCloseButton")
             f.close:SetPoint("TOPRIGHT", 6, 4)
             f.close:SetScript("OnClick", function(button) button:GetParent():Hide() end)
-            if F and F.ReskinClose then
-                F.ReskinClose(f.close)
-            end
         end
     end
 

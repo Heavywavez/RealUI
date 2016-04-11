@@ -6,11 +6,11 @@ local floor = _G.math.floor
 
 -- Libs --
 local oUF = _G.oUFembed
-local F = _G.Aurora[1]
 
 -- RealUI --
 local RealUI = private.RealUI
 local db, ndb
+local Skin = _G.RealUI_Skins.Skin
 
 local UnitFrames = RealUI:GetModule("UnitFrames")
 
@@ -101,8 +101,8 @@ end
 --[[ Parts ]]--
 local function CreateHealthBar(parent)
     parent.Health = _G.CreateFrame("StatusBar", nil, parent)
-    parent.Health:SetPoint("BOTTOMLEFT", parent, "BOTTOMLEFT", 0, 3)
-    parent.Health:SetPoint("TOPRIGHT", parent, "TOPRIGHT", 0, 0)
+    parent.Health:SetPoint("BOTTOMLEFT", 1, 4)
+    parent.Health:SetPoint("TOPRIGHT", -1, -1)
     parent.Health:SetStatusBarTexture(RealUI.media.textures.plain)
     local color = db.overlay.colors.health.normal
     parent.Health:SetStatusBarColor(color[1], color[2], color[3], color[4])
@@ -113,8 +113,6 @@ local function CreateHealthBar(parent)
             self:SetValue(max - self:GetValue())
         end
     end
-
-    F.CreateBDFrame(parent.Health, 0)
 end
 
 local function CreateTags(parent)
@@ -135,22 +133,20 @@ local function CreatePowerBar(parent)
     parent.Power = _G.CreateFrame("StatusBar", nil, parent)
     parent.Power:SetFrameStrata("MEDIUM")
     parent.Power:SetFrameLevel(6)
-    parent.Power:SetPoint("BOTTOMRIGHT", parent, "BOTTOMRIGHT", 0, 0)
-    parent.Power:SetPoint("TOPLEFT", parent, "BOTTOMLEFT", 0, 2)
+    parent.Power:SetPoint("BOTTOMRIGHT", parent, "BOTTOMRIGHT", -1, 1)
+    parent.Power:SetPoint("TOPLEFT", parent, "BOTTOMLEFT", 1, 3)
     parent.Power:SetStatusBarTexture(RealUI.media.textures.plain)
     parent.Power:SetStatusBarColor(db.overlay.colors.power["MANA"][1], db.overlay.colors.power["MANA"][2], db.overlay.colors.power["MANA"][3])
     parent.Power.colorPower = true
     parent.Power.PostUpdate = function(bar, unit, min, max)
         bar:SetShown(max > 0)
     end
-
-    F.CreateBDFrame(parent.Power, 0)
 end
 
 local function CreateTrinket(parent)
     local trinket = _G.CreateFrame("Frame", nil, parent)
-    trinket:SetSize(22, 22)
-    trinket:SetPoint("BOTTOMRIGHT", parent, "BOTTOMLEFT", -3, 0)
+    trinket:SetSize(24, 24)
+    trinket:SetPoint("BOTTOMRIGHT", parent, "BOTTOMLEFT", -1, 0)
     trinket:SetScript("OnUpdate", function(self, elapsed)
         self.elapsed = self.elapsed + elapsed
         if self.elapsed >= self.interval then
@@ -179,24 +175,23 @@ local function CreateTrinket(parent)
             end
         end
     end)
+    Skin.Backdrop(trinket)
     trinket.elapsed = 0
     trinket.interval = 1/4
 
-    trinket.icon = trinket:CreateTexture(nil, "BACKGROUND")
-    trinket.icon:SetAllPoints()
+    trinket.icon = trinket:CreateTexture()
     trinket.icon:SetTexture([[Interface\Icons\PVPCurrency-Conquest-Horde]])
-    trinket.icon:SetTexCoord(.08, .92, .08, .92)
-    F.ReskinIcon(trinket.icon)
+    Skin.Icon(trinket.icon)
 
     trinket.timer = _G.CreateFrame("StatusBar", nil, trinket)
     trinket.timer:SetMinMaxValues(0, 1)
     trinket.timer:SetStatusBarTexture(RealUI.media.textures.plain)
     trinket.timer:SetStatusBarColor(1,1,1,1)
 
-    trinket.timer:SetPoint("BOTTOMLEFT", trinket, "BOTTOMLEFT", 1, 1)
-    trinket.timer:SetPoint("TOPRIGHT", trinket, "BOTTOMRIGHT", -1, 3)
-    trinket.timer:SetFrameLevel(trinket:GetFrameLevel() + 2)
-    F.CreateBDFrame(trinket.timer)
+    trinket.timer:SetPoint("TOPLEFT", trinket, "BOTTOMLEFT", 1, 3)
+    trinket.timer:SetPoint("BOTTOMRIGHT", -1, 1)
+    Skin.Backdrop(trinket.timer)
+    --trinket.timer:Hide()
 
     trinket.text = trinket:CreateFontString(nil, "OVERLAY")
     trinket.text:SetFontObject(_G.RealUIFont_PixelSmall)
@@ -207,8 +202,8 @@ end
 
 local function CreateArena(self)
     --print("CreateArena", self.unit)
-    self:SetSize(135, 22)
-    F.CreateBD(self, 0.7)
+    self:SetSize(135, 24)
+    Skin.Backdrop(self)
 
     CreateHealthBar(self)
     CreateTags(self)
@@ -232,12 +227,11 @@ local function SetupPrepFrames(index)
     else
         prep:SetPoint("TOP", prepFrames[index - 1], "BOTTOM", 0, -db.boss.gap)
     end
-    prep:SetSize(22, 22)
+    prep:SetSize(24, 24)
+    Skin.Backdrop(prep)
     prep:Hide()
     prep.icon = prep:CreateTexture(nil, 'OVERLAY')
-    prep.icon:SetAllPoints()
-    prep.icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
-    F.ReskinIcon(prep.icon)
+    Skin.Icon(prep.icon)
     prepFrames[index] = prep
 end
 

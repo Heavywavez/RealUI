@@ -7,7 +7,6 @@ local next = _G.next
 local RealUI = private.RealUI
 
 RealUI.AddOns = {
-    "Aurora",
     "BugGrabber",
     "BugSack",
     "Bartender4",

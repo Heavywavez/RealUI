@@ -19,13 +19,13 @@ end
 private.DebugXML = {}
 private.AddOns = {}
 
-_G.RealUI_Skins = {Mod, Skin}
+_G.RealUI_Skins = {Mod = Mod, Skin = Skin}
 private.Mod = Mod
 private.Skin = Skin
 
 private.isInGlue = isInGlue
 private.debug = debug
-private.classColor = { r = 0.0, g = 1.00 , b = 0.59, colorStr = "ff00ff96" }
+private.classColor = { r = 0.0, g = 0.8 , b = 1.0, colorStr = "ff00ccff" }
 
 -- debugMode: -1 == default | 0 == -1 + skin
 --             1 == 0 + hidden frames | 2 == 1 - skin
@@ -197,17 +197,23 @@ do -- Skin.CreateArrow
     end
 end
 
-function Skin.Backdrop(self)
+function Skin.Backdrop(self, isClass)
     self:SetBackdrop({
         bgFile = [[Interface\BUTTONS\WHITE8X8]],
         edgeFile = [[Interface\BUTTONS\WHITE8X8]],
         edgeSize = 1,
     })
-    self:SetBackdropColor(bdColor, bdColor, bdColor, bdAlpha)
-    self:SetBackdropBorderColor(bdBorder, bdBorder, bdBorder, 1)
+    if isClass then
+        local cc = private.classColor
+        self:SetBackdropColor(cc.r * bdMod, cc.g * bdMod, cc.b * bdMod, bdAlpha)
+        self:SetBackdropBorderColor(cc.r, cc.g, cc.b, 1)
+    else
+        self:SetBackdropColor(bdColor, bdColor, bdColor, bdAlpha)
+        self:SetBackdropBorderColor(bdBorder, bdBorder, bdBorder, 1)
+    end
 end
 
-do
+do -- Skin.Button
     local function OnEnter(self)
         if not self:IsEnabled() then return end
         local cc = private.classColor
@@ -233,6 +239,45 @@ do
             self.Middle:SetTexture("")
             self.Right:SetTexture("")
         end
+    end
+end
+do -- Skin.Check
+    local function OnEnter(self)
+        if not self:IsEnabled() then return end
+        local cc = private.classColor
+        --self:SetBackdropColor(cc.r * bdMod, cc.g * bdMod, cc.b * bdMod, bdAlpha)
+        self:SetBackdropBorderColor(cc.r, cc.g, cc.b, 1)
+    end
+    local function OnLeave(self)
+        --self:SetBackdropColor(bdColor, bdColor, bdColor, bdAlpha)
+        self:SetBackdropBorderColor(bdBorder, bdBorder, bdBorder, 1)
+    end
+
+    function Skin.Check(self)
+        debug("Button", self:GetName())
+        Skin.Backdrop(self)
+
+        -- Remove button textures
+        for _, layer in next, {"Normal", "Pushed", "Highlight", "Disabled"} do
+            self["Set"..layer.."Texture"](self, "")
+        end
+
+        -- Skin check textures
+        local checkOfs = ModValue(3)
+        for _, layer in next, {"", "Disabled"} do
+            local checkTex = self["Get"..layer.."CheckedTexture"](self)
+            checkTex:SetPoint("TOPLEFT", -checkOfs, checkOfs)
+            checkTex:SetPoint("BOTTOMRIGHT", checkOfs, -checkOfs)
+            if layer == "" then
+                -- Class color normal check
+                local cc = private.classColor
+                checkTex:SetDesaturated(true)
+                checkTex:SetVertexColor(cc.r, cc.g, cc.b)
+            end
+        end
+
+        self:HookScript("OnEnter", OnEnter)
+        self:HookScript("OnLeave", OnLeave)
     end
 end
 

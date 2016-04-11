@@ -4,11 +4,9 @@ local _, private = ...
 local _G = _G
 local next, type = _G.next, _G.type
 
--- Libs --
-local F = _G.Aurora[1]
-
 -- RealUI --
 local RealUI = private.RealUI
+local Skin = _G.RealUI_Skins.Skin
 
 local MODNAME = "AuraTracking"
 local AuraTracking = RealUI:GetModule(MODNAME)
@@ -75,13 +73,10 @@ function AuraTracking:CreateAuraIcon(id, spellData)
         _, _, texture = _G.GetSpellInfo(spellData.spell)
     end
 
-    local icon = tracker:CreateTexture(nil, "BACKGROUND", nil, -7)
-    icon:SetAllPoints(tracker)
+    local icon = tracker:CreateTexture()
     icon:SetTexture(texture)
+    Skin.Icon(icon)
     tracker.icon = icon
-
-    local bg = F.ReskinIcon(icon)
-    tracker.bg = bg
 
     local count = tracker:CreateFontString()
     count:SetFontObject(_G.RealUIFont_PixelCooldown)

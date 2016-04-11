@@ -9,13 +9,12 @@ local next = _G.next
 -- Libs --
 local ACR = _G.LibStub("AceConfigRegistry-3.0")
 local ACD = _G.LibStub("AceConfigDialog-3.0")
-local F, C = _G.Aurora[1], _G.Aurora[2]
-local r, g, b = C.r, C.g, C.b
 
 -- RealUI --
 local RealUI = _G.RealUI
 local L = RealUI.L
 local round = RealUI.Round
+local Skin = _G.RealUI_Skins.Skin
 
 local _, MOD_NAME = _G.strsplit("_", ADDON_NAME)
 local _, uiHeight = _G.UIParent:GetSize()
@@ -117,7 +116,7 @@ local hudConfig, hudToggle do
     hudConfig = _G.CreateFrame("Frame", "RealUIHuDConfig", _G.UIParent)
     hudConfig:SetPoint("BOTTOM", _G.UIParent, "TOP", 0, 0)
     _G.RealUIUINotifications:SetPoint("TOP", hudConfig, "BOTTOM")
-    F.CreateBD(hudConfig)
+    Skin.Backdrop(hudConfig)
     hudConfig:SetScript("OnEvent", function(self, event, ...)
         if event == "PLAYER_REGEN_DISABLED" then
             hudToggle(true)
@@ -143,9 +142,7 @@ local hudConfig, hudToggle do
 
     -- Highlight frame
     local highlight = _G.CreateFrame("Frame", "RealUIHuDConfig", hudConfig)
-    F.CreateBD(highlight, 0.0)
-    highlight:SetBackdropColor(r, g, b, 0.3)
-    highlight:SetBackdropBorderColor(r, g, b)
+    Skin.Backdrop(highlight, true)
     highlight:Hide()
     hudConfig.highlight = highlight
 
@@ -305,7 +302,7 @@ local function InitializeOptions()
             check:SetHitRectInsets(-10, -10, -1, -21)
             check:SetPoint("CENTER", 0, 10)
             check:SetAttribute("type1", "macro")
-            F.ReskinCheck(check)
+            Skin.UICheckButton(check)
             _G.SecureHandlerWrapScript(check, "OnClick", check, [[
                 if self:GetID() == 1 then
                     self:SetAttribute("macrotext", format("/cleartarget\n/focus\n/run RealUI:HuDTestMode(false)"))

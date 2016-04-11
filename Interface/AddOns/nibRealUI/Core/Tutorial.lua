@@ -261,20 +261,6 @@ local RealUI_HelpPlate = {
     },
 }
 
--- Skin Help Plate frames
-local function SkinHelpPlateFrames()
-    if _G.Aurora then
-        for i = 1, _G.HelpPlateTooltip:GetNumRegions() do
-            local region = _G.select(i, _G.HelpPlateTooltip:GetRegions())
-            if region:GetObjectType() == "Texture" then
-                region:SetTexture(nil)
-            end
-        end
-        
-        _G.Aurora[1].SetBD(_G.HelpPlateTooltip)
-    end
-end
-
 local HP_CP
 
 local function RealUITutorial_HelpPlate_AnimateOut()
@@ -354,7 +340,6 @@ function RealUI:ShowTutorial_Stage1()
     end
     
     _G.HelpPlate:EnableMouse(false)
-    SkinHelpPlateFrames()
 end
 
 local function createTextButton(name, parent)
@@ -431,14 +416,6 @@ function RealUI:InitTutorial()
     ]])
     btnClose:Hide()
     RealUI:AddButtonHighlight(btnClose)
-    
-    -- Skin Buttons
-    local F = _G.Aurora[1]
-    if F then
-        F.Reskin(btnOpen)
-        F.Reskin(btnSkip)
-        F.Reskin(btnClose)
-    end
 end
 
 function _G.TestTutorial()

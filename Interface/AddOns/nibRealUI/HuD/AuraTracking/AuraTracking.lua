@@ -7,12 +7,12 @@ local tinsert = _G.table.insert
 
 -- Libs --
 local LibWin = _G.LibStub("LibWindow-1.1")
-local F = _G.Aurora[1]
 
 -- RealUI --
 local RealUI = private.RealUI
 local L = RealUI.L
 local db, trackingData
+local Skin = _G.RealUI_Skins.Skin
 
 local MODNAME = "AuraTracking"
 local AuraTracking = RealUI:GetModule(MODNAME)
@@ -102,6 +102,7 @@ do
         AuraTracking:debug("AddTrackerToSlot", tracker.id, slot:GetID())
         slot.tracker = tracker
         slot.isActive = true
+        slot:SetAlpha(1)
 
         tracker.slotID = slot:GetID()
         tracker:SetAllPoints(slot)
@@ -112,6 +113,7 @@ do
         AuraTracking:debug("RemoveTrackerFromSlot", tracker.id, slot:GetID())
         slot.tracker = nil
         slot.isActive = false
+        slot:SetAlpha(0)
 
         tracker.slotID = nil
         tracker:ClearAllPoints()
@@ -246,7 +248,7 @@ function AuraTracking:Lock()
             parent.bg:Hide()
             for slotID = 1, MAX_STATIC_SLOTS do
                 local slot = self[side]["slot"..slotID]
-                slot:SetAlpha(RealUI.isInTestMode and 1 or 0)
+                slot:SetAlpha(1)
             end
         end
     end
@@ -532,19 +534,19 @@ function AuraTracking:Createslots()
 
         local point = side == "left" and "RIGHT" or "LEFT"
         local xMod = side == "left" and -1 or 1
-        local size = db.style.slotSize - 2
+        local size = db.style.slotSize
         for slotID = 1, MAX_SLOTS do
             local slot = _G.CreateFrame("Frame", nil, parent)
             slot:SetSize(size, size)
+            slot:SetAlpha(0)
             slot:SetID(slotID)
             if slotID == 1 then
                 slot:SetPoint(point, parent, 0, 0)
             else
-                slot:SetPoint(point, parent["slot"..slotID - 1], _G.strupper(side), (db.style.padding + 2) * xMod, 0)
+                slot:SetPoint(point, parent["slot"..slotID - 1], _G.strupper(side), db.style.padding * xMod, 0)
             end
+            Skin.Backdrop(slot)
             parent["slot"..slotID] = slot
-
-            F.CreateBG(slot)
 
             local count = slot:CreateFontString()
             count:SetFontObject(_G.RealUIFont_PixelCooldown)
@@ -552,9 +554,8 @@ function AuraTracking:Createslots()
             count:SetJustifyV("TOP")
             count:SetPoint("TOPRIGHT", slot, "TOPRIGHT", 1.5, 2.5)
             count:SetText(slotID)
+            count:Hide()
             slot.count = count
-
-            slot:SetAlpha(0)
         end
     end
 end
@@ -567,7 +568,7 @@ function AuraTracking:ToggleConfigMode(val)
     for _, side in next, {"left", "right"} do
         for slotID = 1, MAX_STATIC_SLOTS do
             local slot = self[side]["slot"..slotID]
-            slot:SetAlpha(val and 1 or 0)
+            slot.count:SetShown(val)
             if slot.tracker then
                 slot.tracker:EnableMouse(not val)
             end
