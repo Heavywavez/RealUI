@@ -119,7 +119,7 @@ function UIScaler:PLAYER_ENTERING_WORLD()
 end
 
 function UIScaler:OnInitialize()
-    self.db = RealUI.db:RegisterNamespace(MODNAME)
+    --[[self.db = RealUI.db:RegisterNamespace(MODNAME)
     self.db:RegisterDefaults({
         profile = {
             pixelPerfect = true,
@@ -142,5 +142,5 @@ function UIScaler:OnInitialize()
     scaleBtn:SetScript("OnClick", function() RealUI:LoadConfig("nibRealUI", "UIScaler") end)
 
     -- CVar "uiScale" doesn't exist until late in the loading process
-    self:RegisterEvent("PLAYER_ENTERING_WORLD")
+    self:RegisterEvent("PLAYER_ENTERING_WORLD")]]
 end
