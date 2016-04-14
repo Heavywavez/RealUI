@@ -11,6 +11,8 @@ local Mod = private.Mod
 local Skin = private.Skin
 local debug = private.debug
 
+local showProgressIcon = false
+
 _G.tinsert(private.GlueXML, function()
     private.debugEnabled = false
     local DEFAULT_TEXT_OFFSET, MOVING_TEXT_OFFSET = 8, 16
@@ -208,6 +210,10 @@ _G.tinsert(private.GlueXML, function()
 
             charSvc.GoldBorder:SetTexture("")
             Skin.Icon(charSvc.VASIcon)
+
+            local procIcon = _G["CharacterServicesProcessingIcon"..i]
+            Mod.SetPoint(procIcon, "RIGHT", self, "LEFT", -12, 0)
+            Mod.SetSize(procIcon)
             prevBtn = self
         end
     end
@@ -273,6 +279,12 @@ _G.tinsert(private.GlueXML, function()
                     Mod.SetPoint(button.buttonText.name, "TOPLEFT", DEFAULT_TEXT_OFFSET, -3)
                 end
             end
+            if showProgressIcon then
+                local procIcon = _G["CharacterServicesProcessingIcon"..index]
+                procIcon:SetShown(not _G["CharSelectPaidService"..index]:IsShown())
+                procIcon.tooltip = _G.CHARACTER_UPGRADE_PROCESSING;
+                procIcon.tooltip2 = _G.CHARACTER_STATE_ORDER_PROCESSING;
+            end
         end
     end)
 end)
@@ -280,10 +292,16 @@ end)
 _G.tinsert(private.DebugXML, function()
     -- These are frames that wouldn't typically be shown for players
     private.debugEnabled = true
+    local connected = _G.IsConnectedToServer()
+    debug("IsConnectedToServer", connected)
+
+    do --[[ CharacterServicesProcessingIcon ]]--
+        local numTemplates = _G.GetNumCharacterTemplates()
+        debug("numTemplates", numTemplates)
+        showProgressIcon = numTemplates > 0 and connected
+    end
     do --[[ PlayersOnServer ]]--
         local self = _G.PlayersOnServer
-        local connected = _G.IsConnectedToServer()
-        debug("IsConnectedToServer", connected)
         if (not connected) then
             self:Hide()
             return
