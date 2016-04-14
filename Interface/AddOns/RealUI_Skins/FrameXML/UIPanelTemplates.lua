@@ -12,7 +12,7 @@ local Skin = private.Skin
 --local debug = private.debug
 
 function Skin.UICheckButton(self)
-    self:SetSize(Mod.Value(14), Mod.Value(14))
+    Mod.SetSize(self, 14, 14)
     Skin.Check(self)
     Skin.Font(self.text)
 end

@@ -128,32 +128,66 @@ local function ModValue(value)
 end
 Mod.Value = ModValue
 
-function Mod.SetFont(self)
+function Mod.SetFont(self, fontFile, fontSize, fontFlags)
     local xOfs, yOfs = self:GetShadowOffset()
     if xOfs > 0 or yOfs > 0 then
         self:SetShadowOffset(ModValue(xOfs), ModValue(yOfs))
     end
-    local fontFile, fontSize, fontFlags = self:GetFont()
+    if not (fontFile and fontSize) then
+        fontFile, fontSize, fontFlags = self:GetFont()
+    end
     return self:SetFont(fontFile, ModValue(fontSize), fontFlags)
 end
 
-function Mod.SetPoint(self)
-    for i = 1, self:GetNumPoints() do 
-        local point, relTo, relPoint, xOfs, yOfs = self:GetPoint(i)
-        self:SetPoint(point, relTo, relPoint, ModValue(xOfs), ModValue(yOfs))
+function Mod.SetPoint(self, point, relTo, relPoint, xOfs, yOfs)
+    debug(self:GetName(), "SetPoint", point, relTo, relPoint, xOfs, yOfs)
+    if not point or _G.type(point) == "number" then
+        point, relTo, relPoint, xOfs, yOfs = self:GetPoint(point)
+    end
+    if (relTo and _G.type(relTo) ~= "number") then
+        relPoint = relPoint or point
+    elseif _G.type(relTo) == "number" and _G.type(relPoint) == "number" then
+        relTo, relPoint, xOfs, yOfs = nil, nil, relTo, relPoint
+    end
+    debug(self:GetName(), "SetPoint post", point, relTo, relPoint, xOfs, yOfs)
+    if relTo and relPoint then
+        if xOfs and yOfs then
+            debug(self:GetName(), "SetPoint full")
+            return self:SetPoint(point, relTo, relPoint, ModValue(xOfs), ModValue(yOfs))
+        else
+            debug(self:GetName(), "SetPoint relative")
+            return self:SetPoint(point, relTo, relPoint)
+        end
+    else
+        if xOfs and yOfs then
+            debug(self:GetName(), "SetPoint offset")
+            return self:SetPoint(point, ModValue(xOfs), ModValue(yOfs))
+        else
+            debug(self:GetName(), "SetPoint point")
+            return self:SetPoint(point)
+        end
     end
 end
 
-function Mod.SetSize(self)
-    local width, height = self:GetSize()
+function Mod.SetSize(self, width, height)
+    debug(self:GetName(), "SetSize", width, height)
+    if not (width and height) then
+        width, height = self:GetSize()
+    end
     return self:SetSize(ModValue(width), ModValue(height))
 end
 
-function Mod.SetHeight(self)
-    return self:SetHeight(ModValue(self:GetHeight()))
+function Mod.SetHeight(self, height)
+    if not (height) then
+        height = self:GetHeight()
+    end
+    return self:SetHeight(ModValue(height))
 end
-function Mod.SetWidth(self)
-    return self:SetWidth(ModValue(self:GetWidth()))
+function Mod.SetWidth(self, width)
+    if not (width) then
+        width = self:GetWidth()
+    end
+    return self:SetWidth(ModValue(width))
 end
 
 
@@ -164,8 +198,8 @@ private.bdInfo = {bdAlpha, bdMod, bdColor, bdBorder}
 
 do -- Skin.CreateArrow
     local isHoriz = {left = true, right = true}
-    function Skin.CreateArrow(type, parent)
-        type = type:lower()
+    function Skin.CreateArrow(direction, parent)
+        direction = direction:lower()
         local arrow = _G.CreateFrame("Frame", nil, parent)
         for i = 1, 2 do
             arrow[i] = arrow:CreateTexture()
@@ -173,23 +207,23 @@ do -- Skin.CreateArrow
             arrow[i]:SetPoint("TOPLEFT")
             arrow[i]:SetPoint("BOTTOMRIGHT")
         end
-        if isHoriz[type] then
+        if isHoriz[direction] then
             arrow[1]:SetPoint("BOTTOMRIGHT", arrow, "RIGHT")
             arrow[2]:SetPoint("TOPLEFT", arrow, "LEFT")
-            if type == "left" then
+            if direction == "left" then
                 arrow[1]:SetTexCoord(1, 1, 1, 0, 0, 1, 0, 0)
                 arrow[2]:SetTexCoord(1, 0, 1, 1, 0, 0, 0, 1)
-            elseif type == "right" then
+            elseif direction == "right" then
                 arrow[1]:SetTexCoord(0, 1, 0, 0, 1, 1, 1, 0)
                 arrow[2]:SetTexCoord(0, 0, 0, 1, 1, 0, 1, 1)
             end
         else
             arrow[1]:SetPoint("BOTTOMRIGHT", arrow, "BOTTOM")
             arrow[2]:SetPoint("TOPLEFT", arrow, "TOP")
-            if type == "up" then
+            if direction == "up" then
                 arrow[1]:SetTexCoord(1, 1, 1, 0, 0, 1, 0, 0)
                 arrow[2]:SetTexCoord(0, 1, 0, 0, 1, 1, 1, 0)
-            elseif type == "down" then
+            elseif direction == "down" then
                 arrow[1]:SetTexCoord(1, 0, 1, 1, 0, 0, 0, 1)
                 arrow[2]:SetTexCoord(0, 0, 0, 1, 1, 0, 1, 1)
             end
@@ -227,7 +261,7 @@ do -- Skin.Button
     end
 
     function Skin.Button(self)
-        debug("Button", self:GetName())
+        debug(self:GetName(), "Button")
         Skin.Backdrop(self)
         self:HookScript("OnEnter", OnEnter)
         self:HookScript("OnLeave", OnLeave)
@@ -255,7 +289,7 @@ do -- Skin.Check
     end
 
     function Skin.Check(self)
-        debug("Button", self:GetName())
+        debug(self:GetName(), "Check")
         Skin.Backdrop(self)
 
         -- Remove button textures

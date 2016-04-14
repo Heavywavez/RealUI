@@ -28,9 +28,9 @@ _G.tinsert(private.GlueXML, function()
 
     do --[[ AccountUpgradeButton ]]--
         local self = _G.CharSelectAccountUpgradeButton
-        Skin.GlueButton(self)
-        self:SetSize(Mod.Value(191), Mod.Value(43))
+        Mod.SetSize(self, 191, 43)
         Mod.SetPoint(self)
+        Skin.GlueButton(self)
 
         for i = 1, 2 do
             local tex = _G["CharSelectAccountUpgradeButtonChains"..i]
@@ -47,65 +47,65 @@ _G.tinsert(private.GlueXML, function()
 
     do --[[ CharSelectEnterWorldButton ]]--
         local self = _G.CharSelectEnterWorldButton
-        Skin.GlueButton(self)
-        self:SetSize(Mod.Value(173), Mod.Value(34))
-        self:SetPoint("BOTTOM", 0, Mod.Value(46))
         self:SetScript("OnUpdate", nil)
+        Mod.SetSize(self, 173, 34)
+        Mod.SetPoint(self, "BOTTOM", 0, 46)
+        Skin.GlueButton(self)
     end
 
     do --[[ RotateButtons ]]--
         local rotateButtons = {
-            Left = {"TOPRIGHT", "CharSelectEnterWorldButton", "BOTTOM", Mod.Value(-3), Mod.Value(-10)},
-            Right = {"TOPLEFT", "CharacterSelectRotateLeft", "TOPRIGHT", Mod.Value(7), 0}
+            Left = {"TOPRIGHT", "CharSelectEnterWorldButton", "BOTTOM", -3, -10},
+            Right = {"TOPLEFT", "CharacterSelectRotateLeft", "TOPRIGHT", 7, 0}
         }
         for side, anchors in next, rotateButtons do
             local self = _G["CharacterSelectRotate"..side]
-            Skin.Button(self)
-            self:SetSize(Mod.Value(24), Mod.Value(24))
             self:SetHitRectInsets(0, 0, 0, 0)
             self:ClearAllPoints()
-            self:SetPoint(anchors[1], anchors[2], anchors[3], anchors[4], anchors[5])
+            Mod.SetPoint(self, anchors[1], anchors[2], anchors[3], anchors[4], anchors[5])
+            Mod.SetSize(self, 24, 24)
+            Skin.Button(self)
 
             local arrow = Skin.CreateArrow(side, self)
-            arrow:SetPoint("TOPLEFT", Mod.Value(4), Mod.Value(-6))
-            arrow:SetPoint("BOTTOMRIGHT", Mod.Value(-4), Mod.Value(6))
+            Mod.SetPoint(arrow, "TOPLEFT", 4, -6)
+            Mod.SetPoint(arrow, "BOTTOMRIGHT", -4, 6)
         end
     end
 
     do --[[ CharacterSelectBackButton ]]--
         local self = _G.CharacterSelectBackButton
-        Skin.GlueButton(self)
-        self:SetSize(Mod.Value(90), Mod.Value(20))
-        self:ClearAllPoints()
-        self:SetPoint("TOPRIGHT", _G.CharacterSelectCharacterFrame, "BOTTOMRIGHT", 0, Mod.Value(-10))
         self:SetScript("OnUpdate", nil)
+        self:ClearAllPoints()
+        Mod.SetPoint(self, "TOPRIGHT", _G.CharacterSelectCharacterFrame, "BOTTOMRIGHT", 0, -10)
+        Mod.SetSize(self, 90, 20)
+        Skin.GlueButton(self)
     end
 
     do --[[ CharacterSelectMenuButton ]]--
         local self = _G.CharacterSelectMenuButton
-        Skin.GlueButton(self)
-        self:SetSize(Mod.Value(128), Mod.Value(20))
-        self:ClearAllPoints()
-        self:SetPoint("BOTTOMLEFT", Mod.Value(40), Mod.Value(7))
         self:SetScript("OnUpdate", nil)
+        self:ClearAllPoints()
+        Mod.SetPoint(self, "BOTTOMLEFT", 40, 7)
+        Mod.SetSize(self, 128, 20)
+        Skin.GlueButton(self)
     end
 
     do --[[ CharacterSelectAddonsButton ]]--
         local self = _G.CharacterSelectAddonsButton
-        Skin.GlueButton(self)
-        self:SetSize(Mod.Value(128), Mod.Value(20))
-        self:ClearAllPoints()
-        self:SetPoint("BOTTOMLEFT", _G.CharacterSelectMenuButton, "TOPLEFT", 0, Mod.Value(7))
         self:SetScript("OnUpdate", nil)
+        self:ClearAllPoints()
+        Mod.SetPoint(self, "BOTTOMLEFT", _G.CharacterSelectMenuButton, "TOPLEFT", 0, 7)
+        Mod.SetSize(self, 128, 20)
+        Skin.GlueButton(self)
     end
 
     do --[[ StoreButton ]]--
         local self = _G.StoreButton
-        Skin.UIPanelGoldButton(self)
-        self:SetSize(Mod.Value(128), Mod.Value(26))
-        self:ClearAllPoints()
-        self:SetPoint("BOTTOMLEFT", _G.CharacterSelectAddonsButton, "TOPLEFT", 0, Mod.Value(13))
         self:SetScript("OnUpdate", nil)
+        self:ClearAllPoints()
+        Mod.SetPoint(self, "BOTTOMLEFT", _G.CharacterSelectAddonsButton, "TOPLEFT", 0, 13)
+        Mod.SetSize(self, 128, 26)
+        Skin.UIPanelGoldButton(self)
 
         Mod.SetSize(self.Logo)
     end
@@ -113,34 +113,37 @@ _G.tinsert(private.GlueXML, function()
     do --[[ CopyCharacterButton ]]--
         local self = _G.CopyCharacterButton
         Skin.GlueButton(self)
-        self:SetSize(Mod.Value(164), Mod.Value(40))
+        Mod.SetSize(self, 164, 40)
         Mod.SetPoint(self)
     end
 
     do --[[ CharacterSelectDeleteButton ]]--
         local self = _G.CharacterSelectDeleteButton
-        Skin.GlueButton(self)
-        self:ClearAllPoints()
-        self:SetPoint("TOPLEFT", _G.CharacterSelectCharacterFrame, "BOTTOMLEFT", 0, Mod.Value(-10))
-        self:SetPoint("BOTTOMRIGHT", _G.CharacterSelectBackButton, "BOTTOMLEFT", Mod.Value(-15), 0)
         self:SetScript("OnUpdate", nil)
+        self:ClearAllPoints()
+        Mod.SetPoint(self, "TOPLEFT", _G.CharacterSelectCharacterFrame, "BOTTOMLEFT", 0, -10)
+        Mod.SetPoint(self, "BOTTOMRIGHT", _G.CharacterSelectBackButton, "BOTTOMLEFT", -15, 0)
+        Skin.GlueButton(self)
     end
 
     do --[[ CharacterSelectCharacterFrame ]]--
         local self = _G.CharacterSelectCharacterFrame
         Skin.Backdrop(self)
-        self:SetPoint("TOPRIGHT", Mod.Value(-8), Mod.Value(-18))
+        Mod.SetPoint(self, "TOPRIGHT", -8, -18)
 
+        for i = 1, _G.CharSelectRealmName:GetNumPoints() do
+            Mod.SetPoint(_G.CharSelectRealmName, i)
+        end
+        Mod.SetHeight(_G.CharSelectRealmName, 7)
         Skin.Font(_G.CharSelectRealmName)
-        Mod.SetPoint(_G.CharSelectRealmName)
-        _G.CharSelectRealmName:SetHeight(Mod.Value(7))
-        Skin.Font(_G.CharSelectUndeleteLabel)
-        Mod.SetPoint(_G.CharSelectUndeleteLabel)
 
-        Skin.GlueButton(_G.CharSelectChangeRealmButton)
-        _G.CharSelectChangeRealmButton:SetPoint("TOP", _G.CharSelectRealmName, "BOTTOM", 0, Mod.Value(-9))
-        _G.CharSelectChangeRealmButton:SetSize(Mod.Value(120), Mod.Value(18))
+        Mod.SetPoint(_G.CharSelectUndeleteLabel)
+        Skin.Font(_G.CharSelectUndeleteLabel)
+
         _G.CharSelectChangeRealmButton:SetScript("OnUpdate", nil)
+        Mod.SetPoint(_G.CharSelectChangeRealmButton, "TOP", _G.CharSelectRealmName, "BOTTOM", 0, -9)
+        Mod.SetSize(_G.CharSelectChangeRealmButton, 120, 18)
+        Skin.GlueButton(_G.CharSelectChangeRealmButton)
 
         local prevBtn
         local function OnEnter(btn)
@@ -152,30 +155,32 @@ _G.tinsert(private.GlueXML, function()
             end
         end
         local moveButtons = {
-            up = {"TOPRIGHT", Mod.Value(-3), Mod.Value(-3)},
-            down = {"BOTTOMRIGHT", Mod.Value(-3), Mod.Value(3)}
+            up = {"TOPRIGHT", -3, -3},
+            down = {"BOTTOMRIGHT", -3, 3}
         }
         for i = 1, _G.MAX_CHARACTERS_DISPLAYED do
             self = _G["CharSelectCharacterButton"..i]
-            self:SetSize(Mod.Value(231), Mod.Value(52))
             self:SetHitRectInsets(0, 0, 0, 0)
+            self:SetHighlightTexture("")
+            self:SetBackdropBorderColor(0, 0, 0, 0)
+            self:HookScript("OnEnter", OnEnter)
+            self:HookScript("OnLeave", OnLeave)
             self:ClearAllPoints()
             if i == 1 then
-                self:SetPoint("TOPLEFT", Mod.Value(9), Mod.Value(-64))
+                Mod.SetPoint(self, "TOPLEFT", 9, -64)
             else
-                self:SetPoint("TOPLEFT", prevBtn, "BOTTOMLEFT", 0, Mod.Value(-5))
+                Mod.SetPoint(self, "TOPLEFT", prevBtn, "BOTTOMLEFT", 0, -5)
             end
+            Mod.SetSize(self, 231, 52)
+            Skin.Backdrop(self)
 
             self.selection:SetTexture("")
-            self:SetHighlightTexture("")
-            Skin.Backdrop(self)
-            self:SetBackdropBorderColor(0, 0, 0, 0)
 
             for _, name in next, {"name", "Info", "Location"} do
                 local font = self.buttonText[name]
                 Skin.Font(font)
                 if name == "name" then
-                    font:SetPoint("TOPLEFT", Mod.Value(DEFAULT_TEXT_OFFSET), Mod.Value(-3))
+                    Mod.SetPoint(font, "TOPLEFT", DEFAULT_TEXT_OFFSET, -3)
                 else
                     Mod.SetPoint(font)
                     Mod.SetSize(font)
@@ -184,36 +189,35 @@ _G.tinsert(private.GlueXML, function()
 
             for dir, anchors in next, moveButtons do
                 local btn = self[dir.."Button"]
+                Mod.SetSize(btn, 22, 22)
+                Mod.SetPoint(btn, anchors[1], anchors[2], anchors[3])
                 Skin.Button(btn)
-                btn:SetSize(Mod.Value(22), Mod.Value(22))
-                btn:SetPoint(anchors[1], anchors[2], anchors[3])
+
                 local arrow = Skin.CreateArrow(dir, btn)
-                arrow:SetPoint("TOPLEFT", Mod.Value(5), Mod.Value(-8))
-                arrow:SetPoint("BOTTOMRIGHT", Mod.Value(-5), Mod.Value(8))
+                Mod.SetPoint(arrow, "TOPLEFT", 5, -8)
+                Mod.SetPoint(arrow, "BOTTOMRIGHT", -5, 8)
             end
 
-            self:HookScript("OnEnter", OnEnter)
-            self:HookScript("OnLeave", OnLeave)
-
             local charSvc = _G["CharSelectPaidService"..i]
-            Skin.Button(charSvc)
             charSvc:HookScript("OnEnter", OnEnter)
             charSvc:ClearAllPoints()
-            charSvc:SetPoint("RIGHT", self, "LEFT", Mod.Value(-12), 0)
-            charSvc:SetSize(Mod.Value(43), Mod.Value(43))
-            Skin.Icon(charSvc.VASIcon)
+            Mod.SetPoint(charSvc, "RIGHT", self, "LEFT", -12, 0)
+            Mod.SetSize(charSvc, 43, 43)
+            Skin.Button(charSvc)
+
             charSvc.GoldBorder:SetTexture("")
+            Skin.Icon(charSvc.VASIcon)
             prevBtn = self
         end
     end
 
     _G.hooksecurefunc("CharacterSelectButton_OnDragStart", function(self)
-        self.buttonText.name:SetPoint("TOPLEFT", Mod.Value(MOVING_TEXT_OFFSET), Mod.Value(-3));
+        Mod.SetPoint(self.buttonText.name, "TOPLEFT", MOVING_TEXT_OFFSET, -3)
     end)
     _G.hooksecurefunc("CharacterSelectButton_OnDragStop", function(self)
         for index = 1, _G.MAX_CHARACTERS_DISPLAYED do
-            local button = _G["CharSelectCharacterButton"..index];
-            button.buttonText.name:SetPoint("TOPLEFT", Mod.Value(DEFAULT_TEXT_OFFSET), Mod.Value(-3));
+            local button = _G["CharSelectCharacterButton"..index]
+            Mod.SetPoint(button.buttonText.name, "TOPLEFT", DEFAULT_TEXT_OFFSET, -3)
         end
     end)
 
@@ -255,17 +259,17 @@ _G.tinsert(private.GlueXML, function()
     _G.hooksecurefunc("UpdateCharacterList", function(skipSelect)
         local self = _G.CharacterSelectCharacterFrame
         if self.scrollBar:IsShown() then
-            self:SetPoint("BOTTOMLEFT", _G.CharacterSelectUI, "BOTTOMRIGHT", Mod.Value(-278), Mod.Value(50))
+            Mod.SetPoint(self, "BOTTOMLEFT", _G.CharacterSelectUI, "BOTTOMRIGHT", -278, 50)
         else
-            self:SetPoint("BOTTOMLEFT", _G.CharacterSelectUI, "BOTTOMRIGHT", Mod.Value(-258), Mod.Value(50))
+            Mod.SetPoint(self, "BOTTOMLEFT", _G.CharacterSelectUI, "BOTTOMRIGHT", -258, 50)
         end
         for index = 1, _G.math.min(_G.GetNumCharacters(), _G.MAX_CHARACTERS_DISPLAYED) do
             local button = _G["CharSelectCharacterButton"..index]
             if ( _G.CharacterSelect.draggedIndex ) then
                 if ( _G.CharacterSelect.draggedIndex == button.index ) then
-                    button.buttonText.name:SetPoint("TOPLEFT", Mod.Value(MOVING_TEXT_OFFSET), Mod.Value(-3));
+                    Mod.SetPoint(button.buttonText.name, "TOPLEFT", MOVING_TEXT_OFFSET, -3)
                 else
-                    button.buttonText.name:SetPoint("TOPLEFT", Mod.Value(DEFAULT_TEXT_OFFSET), Mod.Value(-3));
+                    Mod.SetPoint(button.buttonText.name, "TOPLEFT", DEFAULT_TEXT_OFFSET, -3)
                 end
             end
         end

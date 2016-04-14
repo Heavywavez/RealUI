@@ -12,7 +12,7 @@ local Skin = private.Skin
 local debug = private.debug
 
 function Skin.GlueButton(self)
-    debug("GlueButton", self:GetName())
+    debug(self:GetName(), "GlueButton")
     local font = self:GetFontString()
     font:SetPoint("CENTER", 0, 0)
     Skin.Font(font)
