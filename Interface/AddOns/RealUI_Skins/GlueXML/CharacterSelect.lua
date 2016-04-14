@@ -12,6 +12,7 @@ local Skin = private.Skin
 local debug = private.debug
 
 _G.tinsert(private.GlueXML, function()
+    private.debugEnabled = false
     local DEFAULT_TEXT_OFFSET, MOVING_TEXT_OFFSET = 8, 16
 
     do --[[ CharacterName ]]--
@@ -278,6 +279,7 @@ end)
 
 _G.tinsert(private.DebugXML, function()
     -- These are frames that wouldn't typically be shown for players
+    private.debugEnabled = true
     do --[[ PlayersOnServer ]]--
         local self = _G.PlayersOnServer
         local connected = _G.IsConnectedToServer()

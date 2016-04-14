@@ -8,13 +8,18 @@ local floor = _G.math.floor
 -- RealUI --
 local Mod, Skin = {}, {}
 local isInGlue = _G.InGlue()
-local debug
+local Debug
 if isInGlue then
     private.GlueXML = {}
-    debug = _G.RealUIDebug or _G.nop
+    Debug = _G.RealUIDebug or _G.nop
 else
     private.FrameXML = {}
-    debug = _G.RealUI and _G.RealUI.GetDebug("Skins") or _G.nop
+    Debug = _G.RealUI and _G.RealUI.GetDebug("Skins") or _G.nop
+end
+local function debug(...)
+    if private.debugEnabled then
+        Debug(...)
+    end
 end
 private.DebugXML = {}
 private.AddOns = {}
