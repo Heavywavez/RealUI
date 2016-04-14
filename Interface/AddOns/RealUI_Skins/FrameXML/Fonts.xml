@@ -30,7 +30,7 @@
 		NAMEPLATE_SPELLCAST_FONT = "GameFontWhiteTiny";
 	</Script>
 
-	<FontFamily name="SystemFont_Outline_Small" virtual="true">
+	<FontFamily name="RealUI_SystemFont_Outline_Small" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\FRIZQT__.TTF" height="10" outline="NORMAL"/>
 		</Member>
@@ -48,7 +48,7 @@
 		</Member>
 	</FontFamily>
 
-	<FontFamily name="SystemFont_Outline" virtual="true">
+	<FontFamily name="RealUI_SystemFont_Outline" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\FRIZQT__.TTF" height="13" outline="NORMAL"/>
 		</Member>
@@ -66,7 +66,7 @@
 		</Member>
 	</FontFamily>
 
-	<FontFamily name="SystemFont_InverseShadow_Small" virtual="true">
+	<FontFamily name="RealUI_SystemFont_InverseShadow_Small" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\FRIZQT__.TTF" height="10">
 				<Shadow>
@@ -119,7 +119,7 @@
 		</Member>
 	</FontFamily>
 
-	<FontFamily name="SystemFont_Med2" virtual="true">
+	<FontFamily name="RealUI_SystemFont_Med2" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\FRIZQT__.TTF" height="13"/>
 		</Member>
@@ -137,7 +137,7 @@
 		</Member>
 	</FontFamily>
 
-	<FontFamily name="SystemFont_Med3" virtual="true">
+	<FontFamily name="RealUI_SystemFont_Med3" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\FRIZQT__.TTF" height="14"/>
 		</Member>
@@ -155,7 +155,7 @@
 		</Member>
 	</FontFamily>
 
-	<FontFamily name="SystemFont_Shadow_Med3" virtual="true">
+	<FontFamily name="RealUI_SystemFont_Shadow_Med3" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\FRIZQT__.TTF" height="14">
 				<Shadow>
@@ -208,7 +208,7 @@
 		</Member>
 	</FontFamily>
 
-	<FontFamily name="SystemFont_Huge1" virtual="true">
+	<FontFamily name="RealUI_SystemFont_Huge1" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\FRIZQT__.TTF" height="20"/>
 		</Member>
@@ -226,7 +226,7 @@
 		</Member>
 	</FontFamily>
 
-	<FontFamily name="SystemFont_Huge1_Outline" virtual="true">
+	<FontFamily name="RealUI_SystemFont_Huge1_Outline" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\FRIZQT__.TTF" height="20" outline="NORMAL"/>
 		</Member>
@@ -244,7 +244,7 @@
 		</Member>
 	</FontFamily>
 
-	<FontFamily name="SystemFont_OutlineThick_Huge2" virtual="true">
+	<FontFamily name="RealUI_SystemFont_OutlineThick_Huge2" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\FRIZQT__.TTF" height="22" outline="THICK"/>
 		</Member>
@@ -262,7 +262,7 @@
 		</Member>
 	</FontFamily>
 
-	<FontFamily name="SystemFont_OutlineThick_Huge4" virtual="true">
+	<FontFamily name="RealUI_SystemFont_OutlineThick_Huge4" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\FRIZQT__.TTF" height="26" outline="THICK"/>
 		</Member>
@@ -280,7 +280,7 @@
 		</Member>
 	</FontFamily>
 
-	<FontFamily name="SystemFont_OutlineThick_WTF" virtual="true">
+	<FontFamily name="RealUI_SystemFont_OutlineThick_WTF" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\FRIZQT__.TTF" height ="32" outline="THICK"/>
 		</Member>
@@ -299,7 +299,7 @@
 	</FontFamily>
 	
 	<!-- This font is used as a way to localize numbers (in some locations.) -->
-	<FontFamily name="NumberFont_GameNormal" virtual="true">
+	<FontFamily name="RealUI_NumberFont_GameNormal" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\FRIZQT__.TTF" height="10">
 				<Shadow>
@@ -338,7 +338,7 @@
 		</Member>
 	</FontFamily>
 
-	<FontFamily name="NumberFont_Shadow_Small" virtual="true">
+	<FontFamily name="RealUI_NumberFont_Shadow_Small" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\ARIALN.TTF" height="12">
 				<Shadow>
@@ -391,7 +391,7 @@
 		</Member>
 	</FontFamily>
 
-	<FontFamily name="NumberFont_OutlineThick_Mono_Small" virtual="true">
+	<FontFamily name="RealUI_NumberFont_OutlineThick_Mono_Small" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\ARIALN.TTF" height="12" outline="THICK" monochrome="true"/>
 		</Member>
@@ -409,7 +409,7 @@
 		</Member>
 	</FontFamily>
 
-	<FontFamily name="NumberFont_Shadow_Med" virtual="true">
+	<FontFamily name="RealUI_NumberFont_Shadow_Med" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\ARIALN.TTF" height="14">
 				<Shadow>
@@ -462,7 +462,7 @@
 		</Member>
 	</FontFamily>
 
-	<FontFamily name="NumberFont_Normal_Med" virtual="true">
+	<FontFamily name="RealUI_NumberFont_Normal_Med" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\ARIALN.TTF" height="14"/>
 		</Member>
@@ -480,7 +480,7 @@
 		</Member>
 	</FontFamily>
 
-	<FontFamily name="NumberFont_Outline_Med" virtual="true">
+	<FontFamily name="RealUI_NumberFont_Outline_Med" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\ARIALN.TTF" height="14" outline="NORMAL"/>
 		</Member>
@@ -498,7 +498,7 @@
 		</Member>
 	</FontFamily>
 
-	<FontFamily name="NumberFont_Outline_Large" virtual="true">
+	<FontFamily name="RealUI_NumberFont_Outline_Large" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\ARIALN.TTF" height="16" outline="NORMAL"/>
 		</Member>
@@ -516,7 +516,7 @@
 		</Member>
 	</FontFamily>
 
-	<FontFamily name="NumberFont_Outline_Huge" virtual="true">
+	<FontFamily name="RealUI_NumberFont_Outline_Huge" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\skurri.ttf" height="30" outline="NORMAL"/>
 		</Member>
@@ -534,7 +534,7 @@
 		</Member>
 	</FontFamily>
 
-	<FontFamily name="QuestFont_Huge" virtual="true">
+	<FontFamily name="RealUI_QuestFont_Huge" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\MORPHEUS.ttf" height="18"/>
 		</Member>
@@ -552,7 +552,7 @@
 		</Member>
 	</FontFamily>
 
-	<Font name="QuestFont_Shadow_Huge" inherits="QuestFont_Huge" virtual="true">
+	<Font name="RealUI_QuestFont_Shadow_Huge" inherits="QuestFont_Huge" virtual="true">
 		<Shadow>
 			<Offset>
 				<AbsDimension x="1" y="-1"/>
@@ -561,7 +561,7 @@
 		</Shadow>
 	</Font>
 
-	<FontFamily name="QuestFont_Outline_Huge" virtual="true">
+	<FontFamily name="RealUI_QuestFont_Outline_Huge" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\MORPHEUS.ttf" height="18" outline="NORMAL"/>
 		</Member>
@@ -579,7 +579,7 @@
 		</Member>
 	</FontFamily>
 
-	<FontFamily name="QuestFont_Super_Huge" virtual="true">
+	<FontFamily name="RealUI_QuestFont_Super_Huge" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\MORPHEUS.ttf" height="24">
 				<Color r="1" g=".82" b="0"/>
@@ -607,7 +607,7 @@
 		</Member>
 	</FontFamily>
 
-	<FontFamily name="QuestFont_Super_Huge_Outline" virtual="true">
+	<FontFamily name="RealUI_QuestFont_Super_Huge_Outline" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\MORPHEUS.ttf" height="24" outline="NORMAL">
 				<Color r="1" g=".82" b="0"/>
@@ -635,7 +635,7 @@
 		</Member>
 	</FontFamily>
 
-	<FontFamily name="SplashHeaderFont" virtual="true">
+	<FontFamily name="RealUI_SplashHeaderFont" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\MORPHEUS.ttf" height="24">
 				<Shadow>
@@ -693,7 +693,7 @@
 		</Member>
 	</FontFamily>
 
-	<FontFamily name="Game18Font" virtual="true">
+	<FontFamily name="RealUI_Game18Font" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\FRIZQT__.ttf" height="18"/>
 		</Member>
@@ -712,7 +712,7 @@
 	</FontFamily>
 
 	
-	<FontFamily name="Game24Font" virtual="true">
+	<FontFamily name="RealUI_Game24Font" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\FRIZQT__.ttf" height="24"/>
 		</Member>
@@ -730,7 +730,7 @@
 		</Member>
 	</FontFamily>
 
-	<FontFamily name="Game27Font" virtual="true">
+	<FontFamily name="RealUI_Game27Font" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\FRIZQT__.ttf" height="27"/>
 		</Member>
@@ -748,7 +748,7 @@
 		</Member>
 	</FontFamily>
 
-	<FontFamily name="Game30Font" virtual="true">
+	<FontFamily name="RealUI_Game30Font" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\FRIZQT__.TTF" height="30"/>
 		</Member>
@@ -767,7 +767,7 @@
 	</FontFamily>
 
 
-	<FontFamily name="Game32Font" virtual="true">
+	<FontFamily name="RealUI_Game32Font" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\FRIZQT__.ttf" height="32"/>
 		</Member>
@@ -785,7 +785,7 @@
 		</Member>
 	</FontFamily>
 	
-	<FontFamily name="Game36Font" virtual="true">
+	<FontFamily name="RealUI_Game36Font" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\FRIZQT__.ttf" height="36"/>
 		</Member>
@@ -803,7 +803,7 @@
 		</Member>
 	</FontFamily>
 	
-	<FontFamily name="Game48Font" virtual="true">
+	<FontFamily name="RealUI_Game48Font" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\FRIZQT__.ttf" height="48"/>
 		</Member>
@@ -821,7 +821,7 @@
 		</Member>
 	</FontFamily>
 	
-	<FontFamily name="Game60Font" virtual="true">
+	<FontFamily name="RealUI_Game60Font" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\FRIZQT__.ttf" height="60"/>
 		</Member>
@@ -839,7 +839,7 @@
 		</Member>
 	</FontFamily>
 	
-	<FontFamily name="Game72Font" virtual="true">
+	<FontFamily name="RealUI_Game72Font" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\FRIZQT__.ttf" height="72"/>
 		</Member>
@@ -857,7 +857,7 @@
 		</Member>
 	</FontFamily>
 
-	<FontFamily name="QuestFont_Enormous" virtual="true">
+	<FontFamily name="RealUI_QuestFont_Enormous" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\MORPHEUS.ttf" height="30">
 				<Color r="1" g=".82" b="0"/>
@@ -885,7 +885,7 @@
 		</Member>
 	</FontFamily>
 
-	<FontFamily name="DestinyFontLarge" virtual="true">
+	<FontFamily name="RealUI_DestinyFontLarge" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\MORPHEUS.ttf" height="18">
 				<Color r="0.1" g="0.1" b="0.1"/>
@@ -913,7 +913,7 @@
 		</Member>
 	</FontFamily>
 
-	<FontFamily name="CoreAbilityFont" virtual="true">
+	<FontFamily name="RealUI_CoreAbilityFont" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\MORPHEUS.ttf" height="32">
 				<Color r="0.1" g="0.1" b="0.1"/>
@@ -941,7 +941,7 @@
 		</Member>
 	</FontFamily>
 
-	<FontFamily name="DestinyFontHuge" virtual="true">
+	<FontFamily name="RealUI_DestinyFontHuge" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\MORPHEUS.ttf" height="32">
 				<Color r="0.1" g="0.1" b="0.1"/>
@@ -969,7 +969,7 @@
 		</Member>
 	</FontFamily>
 
-	<FontFamily name="QuestFont_Shadow_Small" virtual="true">
+	<FontFamily name="RealUI_QuestFont_Shadow_Small" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\MORPHEUS.ttf" height="14">
 				<Shadow>
@@ -1022,7 +1022,7 @@
 		</Member>
 	</FontFamily>
 
-	<FontFamily name="MailFont_Large" virtual="true">
+	<FontFamily name="RealUI_MailFont_Large" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\MORPHEUS.ttf" height="15"/>
 		</Member>
@@ -1040,7 +1040,7 @@
 		</Member>
 	</FontFamily>
 
-	<FontFamily name="SpellFont_Small" virtual="true">
+	<FontFamily name="RealUI_SpellFont_Small" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\FRIZQT__.TTF" height="10"/>
 		</Member>
@@ -1058,7 +1058,7 @@
 		</Member>
 	</FontFamily>
 
-	<FontFamily name="InvoiceFont_Med" virtual="true">
+	<FontFamily name="RealUI_InvoiceFont_Med" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\FRIZQT__.TTF" height="12"/>
 		</Member>
@@ -1076,7 +1076,7 @@
 		</Member>
 	</FontFamily>
 
-	<FontFamily name="InvoiceFont_Small" virtual="true">
+	<FontFamily name="RealUI_InvoiceFont_Small" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\FRIZQT__.TTF" height="10"/>
 		</Member>
@@ -1094,7 +1094,7 @@
 		</Member>
 	</FontFamily>
 
-	<FontFamily name="Tooltip_Med" virtual="true">
+	<FontFamily name="RealUI_Tooltip_Med" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\FRIZQT__.TTF" height="12"/>
 		</Member>
@@ -1112,7 +1112,7 @@
 		</Member>
 	</FontFamily>
 
-	<FontFamily name="Tooltip_Small" virtual="true">
+	<FontFamily name="RealUI_Tooltip_Small" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\FRIZQT__.TTF" height="10"/>
 		</Member>
@@ -1130,7 +1130,7 @@
 		</Member>
 	</FontFamily>
 
-	<FontFamily name="AchievementFont_Small" virtual="true">
+	<FontFamily name="RealUI_AchievementFont_Small" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\FRIZQT__.TTF" height="10"/>
 		</Member>
@@ -1148,7 +1148,7 @@
 		</Member>
 	</FontFamily>
 
-	<FontFamily name="ReputationDetailFont" virtual="true">
+	<FontFamily name="RealUI_ReputationDetailFont" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\FRIZQT__.TTF" height="10">
 				<Shadow>
@@ -1206,7 +1206,7 @@
 		</Member>
 	</FontFamily>
 
-	<FontFamily name="FriendsFont_Normal" virtual="true">
+	<FontFamily name="RealUI_FriendsFont_Normal" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\FRIZQT__.TTF" height="12">
 				<Shadow>
@@ -1259,7 +1259,7 @@
 		</Member>
 	</FontFamily>
 
-	<FontFamily name="FriendsFont_Small" virtual="true">
+	<FontFamily name="RealUI_FriendsFont_Small" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\FRIZQT__.TTF" height="10">
 				<Shadow>
@@ -1312,7 +1312,7 @@
 		</Member>
 	</FontFamily>
 
-	<FontFamily name="FriendsFont_Large" virtual="true">
+	<FontFamily name="RealUI_FriendsFont_Large" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\FRIZQT__.TTF" height="14">
 				<Shadow>
@@ -1365,7 +1365,7 @@
 		</Member>
 	</FontFamily>
 
-	<FontFamily name="FriendsFont_UserText" virtual="true">
+	<FontFamily name="RealUI_FriendsFont_UserText" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\ARIALN.TTF" height="11">
 				<Shadow>
@@ -1418,7 +1418,7 @@
 		</Member>
 	</FontFamily>
 
-	<FontFamily name="GameFont_Gigantic" virtual="true">
+	<FontFamily name="RealUI_GameFont_Gigantic" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\FRIZQT__.TTF" height="32">
 				<Shadow>
@@ -1476,7 +1476,7 @@
 		</Member>
 	</FontFamily>
 
-	<FontFamily name="ChatBubbleFont" virtual="true">
+	<FontFamily name="RealUI_ChatBubbleFont" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\FRIZQT__.TTF" height="13"/>
 		</Member>
@@ -1494,7 +1494,7 @@
 		</Member>
 	</FontFamily>
 
-	<FontFamily name="Fancy16Font" virtual="true">
+	<FontFamily name="RealUI_Fancy16Font" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Fonts\MORPHEUS.TTF" height="16"/>
 		</Member>
