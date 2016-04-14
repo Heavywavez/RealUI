@@ -92,8 +92,9 @@ function events:ADDON_LOADED(addonName)
         debug("UISize", uiHieght, uiScale, private.uiMod)
         private.uiScale = uiScale
 
+        local parent = isInGlue and _G.GlueParent or _G.UIParent
         if uiScale < .64 or isInGlue then
-            (_G.UIParent or _G.GlueParent):SetScale(uiScale)
+            parent:SetScale(uiScale)
         elseif uiScale ~= _G.tonumber(_G.GetCVar("uiScale")) then
             _G.SetCVar("useUiScale", 1)
             _G.SetCVar("uiScale", uiScale)

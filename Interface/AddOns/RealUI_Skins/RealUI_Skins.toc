@@ -2,6 +2,7 @@
 ## Title: RealUI Skins
 ## Notes: Skins for the default UI and Blizzard's AddOns
 ## LoadWith: Blizzard_StoreUI
+## SavedVariables: RealUI_SkinsDB
 
 RealUI_Skins.lua
 

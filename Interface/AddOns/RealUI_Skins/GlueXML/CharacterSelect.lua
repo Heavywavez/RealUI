@@ -12,7 +12,6 @@ local Skin = private.Skin
 local debug = private.debug
 
 _G.tinsert(private.GlueXML, function()
-    _G.CharacterSelect:SetScale(private.uiScale)
     local DEFAULT_TEXT_OFFSET, MOVING_TEXT_OFFSET = 8, 16
 
     do --[[ CharacterName ]]--
