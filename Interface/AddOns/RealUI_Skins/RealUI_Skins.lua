@@ -93,7 +93,7 @@ function events:ADDON_LOADED(addonName)
         local screenResolutions = {_G.GetScreenResolutions()}
         local uiHeight = screenResolutions[_G.GetCurrentResolution()]:match("%d+x(%d+)")
         local uiScale = 768 / uiHeight
-        private.uiMod = (uiHeight / 768) * isInGlue and 1 or _G.RealUI_SkinsDB.realUIScale
+        private.uiMod = (uiHeight / 768) * (isInGlue and 1 or _G.RealUI_SkinsDB.realUIScale)
         debug("UISize", uiHeight, uiScale, private.uiMod)
         private.uiScale = uiScale
 
