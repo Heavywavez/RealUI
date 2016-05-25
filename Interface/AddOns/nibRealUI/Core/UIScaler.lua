@@ -1,3 +1,5 @@
+if _G.IsAddOnLoaded("RealUI_Skins") then return end
+
 local _, private = ...
 
 -- Lua Globals --
@@ -53,7 +55,7 @@ function UIScaler:PLAYER_ENTERING_WORLD()
 end
 
 function UIScaler:OnInitialize()
-    --[[self.db = RealUI.db:RegisterNamespace(MODNAME)
+    self.db = RealUI.db:RegisterNamespace(MODNAME)
     self.db:RegisterDefaults({
         profile = {
             pixelPerfect = true,
@@ -74,5 +76,5 @@ function UIScaler:OnInitialize()
     scaleBtn:SetScript("OnClick", function() RealUI:LoadConfig("RealUI", "skins") end)
 
     -- CVar "uiScale" doesn't exist until late in the loading process
-    self:RegisterEvent("PLAYER_ENTERING_WORLD")]]
+    self:RegisterEvent("PLAYER_ENTERING_WORLD")
 end
