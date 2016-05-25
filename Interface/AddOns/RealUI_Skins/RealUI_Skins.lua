@@ -91,10 +91,10 @@ function events:ADDON_LOADED(addonName)
         _G.RealUI_SkinsDB = _G.RealUI_SkinsDB or defaults
 
         local screenResolutions = {_G.GetScreenResolutions()}
-        local uiHieght = screenResolutions[_G.GetCurrentResolution()]:match("%d+x(%d+)")
-        local uiScale = 768 / uiHieght
-        private.uiMod = (uiHieght / 768) * _G.RealUI_SkinsDB.realUIScale
-        debug("UISize", uiHieght, uiScale, private.uiMod)
+        local uiHeight = screenResolutions[_G.GetCurrentResolution()]:match("%d+x(%d+)")
+        local uiScale = 768 / uiHeight
+        private.uiMod = (uiHeight / 768) * isInGlue and 1 or _G.RealUI_SkinsDB.realUIScale
+        debug("UISize", uiHeight, uiScale, private.uiMod)
         private.uiScale = uiScale
 
         local parent = isInGlue and _G.GlueParent or _G.UIParent
