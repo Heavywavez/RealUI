@@ -42,9 +42,9 @@ do
         for i = 1, #lsmFonts do
             fontName = lsmFonts[i]
             path = LSM:Fetch("font", fontName)
-            debug("Fonts|", fontName, "|", path, "|", fontPath)
+            debug("Fonts |", fontName, "|", path, "|", fontPath)
             if path == fontPath then
-                debug("Fonts Equal|", fontName, "|", fontSize, "|", fontArgs)
+                debug("Fonts Equal |", fontName, "|", fontSize, "|", fontArgs)
                 local tab = {
                     fontName,
                     fontSize,
@@ -166,6 +166,11 @@ RealUI.hudSizeOffsets = {
 }
 
 -- Default Options
+local charInit = {
+    installStage = 0,
+    initialized = false,
+    needchatmoved = true,
+}
 local defaults = {
     global = {
         tutorial = {
@@ -187,6 +192,7 @@ local defaults = {
         verinfo = {},
     },
     char = {
+        init = charInit,
         layout = {
             current = 1,    -- 1 = DPS/Tank, 2 = Healing
             needchanged = false,
@@ -429,19 +435,21 @@ function RealUI:VARIABLES_LOADED()
     -- end)
 
     -- Fix Regeant shift+clicking in TradeSkill window
+    if not RealUI.isBeta then
     _G.LoadAddOn("Blizzard_TradeSkillUI")
-    local function TradeSkillReagent_OnClick(button)
-        local link = _G.GetTradeSkillReagentItemLink(_G.TradeSkillFrame.selectedSkill, button:GetID())
-        if not link then
-            local name = _G.GameTooltip:GetItem()
-            if name ~= button.name:GetText() then
-                return
+        local function TradeSkillReagent_OnClick(button)
+            local link = _G.GetTradeSkillReagentItemLink(_G.TradeSkillFrame.selectedSkill, button:GetID())
+            if not link then
+                local name = _G.GameTooltip:GetItem()
+                if name ~= button.name:GetText() then
+                    return
+                end
             end
+            _G.HandleModifiedItemClick(link)
         end
-        _G.HandleModifiedItemClick(link)
-    end
-    for i = 1, 8 do
-        _G["TradeSkillReagent"..i]:SetScript("OnClick", TradeSkillReagent_OnClick)
+        for i = 1, 8 do
+            _G["TradeSkillReagent"..i]:SetScript("OnClick", TradeSkillReagent_OnClick)
+        end
     end
 end
 
@@ -502,7 +510,7 @@ function RealUI:PLAYER_ENTERING_WORLD()
     end, 1)
 
     -- Position Chat Frame
-    if _G.nibRealUICharacter.needchatmoved then
+    if dbc.init.needchatmoved then
         _G.ChatFrame1:ClearAllPoints()
         _G.ChatFrame1:SetPoint("BOTTOMLEFT", "UIParent", "BOTTOMLEFT", 6, 32)
         _G.ChatFrame1:SetFrameLevel(15)
@@ -510,11 +518,12 @@ function RealUI:PLAYER_ENTERING_WORLD()
         _G.ChatFrame1:SetWidth(400)
         _G.ChatFrame1:SetUserPlaced(true)
         _G.FCF_SavePositionAndDimensions(_G.ChatFrame1)
-        _G.nibRealUICharacter.needchatmoved = false
+        dbc.init.needchatmoved = false
     end
 end
 
 function RealUI:PLAYER_LOGIN()
+    debug("PLAYER_LOGIN", dbc.init.installStage)
     -- Retina Display check
     if not(dbg.tags.retinaDisplay.checked) and self:RetinaDisplayCheck() then
         self:InitRetinaDisplayOptions()
@@ -522,12 +531,12 @@ function RealUI:PLAYER_LOGIN()
     end
 
     -- Low Res optimization check
-    if (_G.nibRealUICharacter and _G.nibRealUICharacter.installStage == -1) then
+    if (dbc.init.installStage == -1) then
         self:LowResOptimizationCheck()
     end
 
     -- Tutorial
-    if (_G.nibRealUICharacter and _G.nibRealUICharacter.installStage == -1) then
+    if (dbc.init.installStage == -1) then
         if (dbg.tutorial.stage == 0) then
             self:InitTutorial()
         end
@@ -545,7 +554,7 @@ function RealUI:PLAYER_LOGIN()
     local blue = RealUI:ColorTableToStr(RealUI.media.colors.blue)
     local red = RealUI:ColorTableToStr(RealUI.media.colors.red)
 
-    if (_G.nibRealUICharacter.installStage == -1) and (dbg.tutorial.stage == -1) then
+    if (dbc.init.installStage == -1) and (dbg.tutorial.stage == -1) then
         if not(dbg.messages.resetNew) then
             -- This part should be in the bag addon
             if _G.IsAddOnLoaded("cargBags_Nivaya") then
@@ -634,28 +643,16 @@ function RealUI:LoadConfig(app, section, ...)
         configLoaded = true
         local loaded, reason = _G.LoadAddOn("nibRealUI_Config")
         if not loaded then
-             _G.print("Failed to load nibRealUI_Config:", reason)
+            _G.print("Failed to load nibRealUI_Config:", reason)
             configFailed = true
         end
     end
     if not configFailed then return self:ToggleConfig(app, section, ...) end
-
-    -- For compat until new config is finished
-    RealUI:SetUpOptions()
-    if app == "HuD" and not ... then
-        return RealUI:ShowConfigBar()
-    end
-    local ACD = _G.LibStub("AceConfigDialog-3.0")
-    if ACD.OpenFrames[app] then
-        ACD:Close(app)
-    else
-        ACD:Open(app, section, ...)
-    end
 end
 
 function RealUI:OnInitialize()
-    -- Initialize settings, options, slash commands
     self.db = _G.LibStub("AceDB-3.0"):New("nibRealUIDB", defaults, "RealUI")
+    debug("OnInitialize", self.db.keys, self.db.char.init.installStage)
     db = self.db.profile
     dbc = self.db.char
     dbg = self.db.global
@@ -667,10 +664,26 @@ function RealUI:OnInitialize()
     self.cLayout = dbc.layout.current
     self.ncLayout = self.cLayout == 1 and 2 or 1
 
+    if _G.nibRealUICharacter then
+        debug("Keys", self.db.keys.char, _G.nibRealUIDB.profileKeys[self.db.keys.char])
+        if db.registeredChars[self.key] then
+            dbc.init.installStage = _G.nibRealUICharacter.installStage
+            dbc.init.initialized = _G.nibRealUICharacter.initialized
+            dbc.init.needchatmoved = _G.nibRealUICharacter.needchatmoved
+        end
+        _G.nibRealUICharacter = nil
+    end
+
     -- Profile change
-    self.db.RegisterCallback(self, "OnProfileChanged", "Refresh")
-    self.db.RegisterCallback(self, "OnProfileCopied", "Refresh")
-    self.db.RegisterCallback(self, "OnProfileReset", "Refresh")
+    debug("Char", dbc.init.installStage)
+    self.db.RegisterCallback(self, "OnProfileChanged", "ReloadUIDialog")
+    self.db.RegisterCallback(self, "OnProfileCopied", "ReloadUIDialog")
+    self.db.RegisterCallback(self, "OnProfileReset", function()
+        debug("OnProfileReset", RealUI.db.char.init, RealUI.db.char.init.installStage)
+        RealUI.db.char.init = charInit
+        debug("Char", RealUI.db.char.init, RealUI.db.char.init.installStage)
+        RealUI:ReloadUIDialog()
+    end)
 
     -- Register events
     self:RegisterEvent("ADDON_LOADED")
@@ -683,7 +696,7 @@ function RealUI:OnInitialize()
     -- Chat Commands
     self:RegisterChatCommand("real", "ChatCommand_Config")
     self:RegisterChatCommand("realui", "ChatCommand_Config")
-    self:RegisterChatCommand("realadv", function() RealUI:LoadConfig(ADDON_NAME) end)
+    self:RegisterChatCommand("realadv", function() RealUI:LoadConfig("RealUI") end)
     self:RegisterChatCommand("memory", "MemoryDisplay")
     self:RegisterChatCommand("rl", function() _G.ReloadUI() end)
     self:RegisterChatCommand("cpuProfiling", "CPU_Profiling_Toggle")
@@ -725,7 +738,7 @@ function RealUI:OnInitialize()
 
     -- Done
      _G.print(("RealUI %s loaded."):format(RealUI:GetVerString(true)))
-    if not(dbg.tags.slashRealUITyped) and _G.nibRealUICharacter and (_G.nibRealUICharacter.installStage == -1) then
+    if not dbg.tags.slashRealUITyped and dbc.init.installStage == -1 then
          _G.print(L["Slash_RealUI"]:format("|cFFFF8000/realui|r"))
     end
 end
@@ -734,6 +747,16 @@ function RealUI:RegisterConfigModeModule(module)
     if module and module.ToggleConfigMode and type(module.ToggleConfigMode) == "function" then
         _G.tinsert(self.configModeModules, module)
     end
+end
+local addonSkins = {}
+function RealUI:RegisterAddOnSkin(name)
+    local skin = self:NewModule(name, "AceEvent-3.0")
+    skin:SetEnabledState(self:GetModuleEnabled(name))
+    _G.tinsert(addonSkins, name)
+    return skin
+end
+function RealUI:GetAddOnSkins()
+    return addonSkins
 end
 
 do
@@ -762,6 +785,3 @@ function RealUI:SetModuleEnabled(module, value)
     end
 end
 
-function RealUI:Refresh()
-    RealUI:ReloadUIDialog()
-end

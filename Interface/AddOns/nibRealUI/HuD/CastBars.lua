@@ -19,7 +19,7 @@ local MaxTicks = 10
 local ChannelingTicks = {
     -- Druid
     [_G.GetSpellInfo(16914)] = 10, -- Hurricane
-    [_G.GetSpellInfo(106996)] = 10,-- Astral Storm
+    [_G.GetSpellInfo(106996) or "gone"] = 10,-- Astral Storm
     [_G.GetSpellInfo(740)] = 4,    -- Tranquility
     -- Mage
     [_G.GetSpellInfo(5143)] = 5,   -- Arcane Missiles
@@ -33,7 +33,7 @@ local ChannelingTicks = {
     -- Priest
     [_G.GetSpellInfo(64843)] = 4,  -- Divine Hymn
     [_G.GetSpellInfo(15407)] = 3,  -- Mind Flay
-    [_G.GetSpellInfo(129197)] = 3, -- Mind Flay (Insanity)
+    [_G.GetSpellInfo(129197) or "gone"] = 3, -- Mind Flay (Insanity)
     [_G.GetSpellInfo(48045)] = 5,  -- Mind Sear
     [_G.GetSpellInfo(47540)] = 2,  -- Penance
     -- Warlock
@@ -475,7 +475,7 @@ function CastBars:OnInitialize()
                 size = {x = 230, y = 28},
                 position = {x = 0, y = 0},
                 icon = 28,
-                debug = true
+                debug = false
             },
             target = {
                 size = {x = 230, y = 28},
@@ -487,7 +487,7 @@ function CastBars:OnInitialize()
                 size = {x = 146, y = 28},
                 position = {x = 0, y = 0},
                 icon = 16,
-                debug = true
+                debug = false
             },
             size = {
                 [1] = {

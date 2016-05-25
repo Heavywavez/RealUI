@@ -16,3 +16,19 @@ RealUI.realm = _G.GetRealmName()
 RealUI.faction = _G.UnitFactionGroup("player")
 RealUI.classLocale, RealUI.class, RealUI.classID = _G.UnitClass("player")
 RealUI.classColor = _G.CUSTOM_CLASS_COLORS and _G.CUSTOM_CLASS_COLORS[RealUI.class] or _G.RAID_CLASS_COLORS[RealUI.class]
+
+RealUI.globals = {
+    anchorPoints = {
+        "TOPLEFT",    "TOP",    "TOPRIGHT",
+        "LEFT",       "CENTER", "RIGHT",
+        "BOTTOMLEFT", "BOTTOM", "BOTTOMRIGHT",
+    },
+    stratas = {
+        "BACKGROUND",
+        "LOW",
+        "MEDIUM",
+        "HIGH",
+        "DIALOG",
+        "TOOLTIP"
+    }
+}
