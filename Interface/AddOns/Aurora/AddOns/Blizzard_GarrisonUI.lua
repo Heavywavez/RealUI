@@ -7,7 +7,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 	local GarrisonBuildingFrame = GarrisonBuildingFrame
 
-	for i = 1, 18 do
+	for i = 1, (C.isBetaClient and 14 or 18) do
 		select(i, GarrisonBuildingFrame:GetRegions()):Hide()
 	end
 
@@ -43,7 +43,11 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		tab.bg = bg
 
 		local hl = tab:GetHighlightTexture()
-		hl:SetTexture(r, g, b, .1)
+		if C.isBetaClient then
+			hl:SetColorTexture(r, g, b, .1)
+		else
+			hl:SetTexture(r, g, b, .1)
+		end
 		hl:ClearAllPoints()
 		hl:SetPoint("TOPLEFT", bg, 1, -1)
 		hl:SetPoint("BOTTOMRIGHT", bg, -1, 1)
@@ -72,13 +76,21 @@ C.themes["Blizzard_GarrisonUI"] = function()
 				bg:SetFrameLevel(button:GetFrameLevel()-1)
 				F.CreateBD(bg, .25)
 
-				button.SelectedBG:SetTexture(r, g, b, .2)
+				if C.isBetaClient then
+					button.SelectedBG:SetColorTexture(r, g, b, .2)
+				else
+					button.SelectedBG:SetTexture(r, g, b, .2)
+				end
 				button.SelectedBG:ClearAllPoints()
 				button.SelectedBG:SetPoint("TOPLEFT", bg, 1, -1)
 				button.SelectedBG:SetPoint("BOTTOMRIGHT", bg, -1, 1)
 
 				local hl = button:GetHighlightTexture()
-				hl:SetTexture(r, g, b, .1)
+				if C.isBetaClient then
+					hl:SetColorTexture(r, g, b, .1)
+				else
+					hl:SetTexture(r, g, b, .1)
+				end
 				hl:ClearAllPoints()
 				hl:SetPoint("TOPLEFT", bg, 1, -1)
 				hl:SetPoint("BOTTOMRIGHT", bg, -1, 1)
@@ -274,7 +286,11 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 		local selectedTex = bg:CreateTexture(nil, "BACKGROUND")
 		selectedTex:SetAllPoints()
-		selectedTex:SetTexture(r, g, b, .2)
+		if C.isBetaClient then
+			selectedTex:SetColorTexture(r, g, b, .2)
+		else
+			selectedTex:SetTexture(r, g, b, .2)
+		end
 		selectedTex:Hide()
 		tab.selectedTex = selectedTex
 
@@ -376,7 +392,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 	local GarrisonMissionFrame = GarrisonMissionFrame
 
-	for i = 1, 18 do
+	for i = 1, (C.isBetaClient and 14 or 18) do
 		select(i, GarrisonMissionFrame:GetRegions()):Hide()
 	end
 
@@ -514,7 +530,11 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		local overlay = MissionPage.Stage:CreateTexture()
 		overlay:SetDrawLayer("ARTWORK", 3)
 		overlay:SetAllPoints(bg)
-		overlay:SetTexture(0, 0, 0, .5)
+		if C.isBetaClient then
+			overlay:SetColorTexture(0, 0, 0, .5)
+		else
+			overlay:SetTexture(0, 0, 0, .5)
+		end
 
 		local iconbg = select(16, MissionPage:GetRegions())
 		iconbg:ClearAllPoints()
@@ -532,14 +552,22 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	local function onAssignFollowerToMission(self, frame)
 		local portrait = frame.PortraitFrame
 
-		portrait.LevelBorder:SetTexture(0, 0, 0, .5)
+		if C.isBetaClient then
+			portrait.LevelBorder:SetColorTexture(0, 0, 0, .5)
+		else
+			portrait.LevelBorder:SetTexture(0, 0, 0, .5)
+		end
 		portrait.LevelBorder:SetSize(44, 11)
 	end
 
 	local function onRemoveFollowerFromMission(self, frame)
 		local portrait = frame.PortraitFrame
 
-		portrait.LevelBorder:SetTexture(0, 0, 0, .5)
+		if C.isBetaClient then
+			portrait.LevelBorder:SetColorTexture(0, 0, 0, .5)
+		else
+			portrait.LevelBorder:SetTexture(0, 0, 0, .5)
+		end
 		portrait.LevelBorder:SetSize(44, 11)
 
 		if portrait.squareBG then portrait.squareBG:SetBackdropBorderColor(0, 0, 0) end
@@ -603,7 +631,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 	-- Portraits
 
-	hooksecurefunc("GarrisonMissionFrame_SetFollowerPortrait", function(portraitFrame, followerInfo)
+	hooksecurefunc((C.isBetaClient and "GarrisonMissionPortrait_SetFollowerPortrait" or "GarrisonMissionFrame_SetFollowerPortrait"), function(portraitFrame, followerInfo)
 		if not portraitFrame.styled then
 			F.ReskinGarrisonPortrait(portraitFrame)
 			portraitFrame.styled = true
@@ -652,7 +680,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 	local GarrisonRecruitSelectFrame = GarrisonRecruitSelectFrame
 
-	for i = 1, 18 do
+	for i = 1, (C.isBetaClient and 14 or 18) do
 		select(i, GarrisonRecruitSelectFrame:GetRegions()):Hide()
 	end
 	GarrisonRecruitSelectFrame.TitleText:Show()
@@ -729,7 +757,12 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		local numButtons = #buttons
 
 		for i = 1, #buttons do
-			local button = buttons[i]
+			local button
+			if C.isBetaClient then
+				button = buttons[i].Follower
+			else
+				button = buttons[i]
+			end
 			local portrait = button.PortraitFrame
 
 			if not button.restyled then
@@ -742,7 +775,11 @@ C.themes["Blizzard_GarrisonUI"] = function()
 				button.BusyFrame:SetAllPoints()
 
 				local hl = button:GetHighlightTexture()
-				hl:SetTexture(r, g, b, .1)
+				if C.isBetaClient then
+					hl:SetColorTexture(r, g, b, .1)
+				else
+					hl:SetTexture(r, g, b, .1)
+				end
 				hl:ClearAllPoints()
 				hl:SetPoint("TOPLEFT", 1, -1)
 				hl:SetPoint("BOTTOMRIGHT", -1, 1)

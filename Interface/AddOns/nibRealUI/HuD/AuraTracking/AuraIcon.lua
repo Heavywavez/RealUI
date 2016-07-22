@@ -10,15 +10,18 @@ local Skin = _G.RealUI_Skins.Skin
 
 local MODNAME = "AuraTracking"
 local AuraTracking = RealUI:GetModule(MODNAME)
+local debug = AuraTracking.trackerDebug
 
 local icons = {}
 
 --[[ API Functions ]]--
 local api = {}
 function api:UpdateSpellData()
+    AuraTracking:debug("Tracker:UpdateSpellData", self.id)
     local spellData = icons[self]
     self.isStatic = spellData.order > 0
     self.filter = (spellData.auraType == "buff" and "HELPFUL PLAYER" or "HARMFUL PLAYER")
+    self.slotIDMax = spellData.order
 end
 
 function api:Enable()
@@ -30,13 +33,14 @@ function api:Enable()
         if eventUpdate.event == "UNIT_AURA" then
             eventUpdate.func(self, spellData)
         else
+            debug(spellData.debug, "RegisterEvent", eventUpdate.event, eventUpdate.func)
             self:RegisterEvent(eventUpdate.event)
             self[eventUpdate.event] = eventUpdate.func
         end
     end
     if self.isStatic then
         self.icon:SetDesaturated(true)
-        AuraTracking:AddTracker(self, spellData.order)
+        AuraTracking:AddTracker(self)
     end
 end
 function api:Disable()
@@ -46,7 +50,7 @@ function api:Disable()
     if self.timer then
         AuraTracking:CancelTimer(self.timer)
     end
-    if self.slotID then
+    if self.slot then
         AuraTracking:RemoveTracker(self)
     end
 end
@@ -80,7 +84,7 @@ function AuraTracking:CreateAuraIcon(id, spellData)
     Skin.Icon(icon)
     tracker.icon = icon
 
-    local count = cd:CreateFontString()
+    local count = tracker:CreateFontString()
     count:SetFontObject(_G.RealUIFont_PixelCooldown)
     count:SetJustifyH("RIGHT")
     count:SetJustifyV("TOP")

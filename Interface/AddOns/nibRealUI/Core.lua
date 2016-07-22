@@ -166,62 +166,72 @@ RealUI.hudSizeOffsets = {
 }
 
 -- Default Options
-local charInit = {
-    installStage = 0,
-    initialized = false,
-    needchatmoved = true,
-}
-local defaults = {
-    global = {
-        tutorial = {
-            stage = -1,
-        },
-        tags = {
-            firsttime = true,
-            retinaDisplay = {
-                checked = false,
-                set = false,
+local defaults, charInit do
+    charInit = {
+        installStage = 0,
+        initialized = false,
+        needchatmoved = true,
+    }
+    local spec = {}
+    for specIndex = 1, _G.GetNumSpecializationsForClassID(RealUI.classID) do
+        local _, _, _, _, _, role = _G.GetSpecializationInfoForClassID(RealUI.classID, specIndex)
+        debug("Spec info", specIndex, role)
+        spec[specIndex] = role == "HEALER" and 2 or 1
+    end
+    defaults = {
+        global = {
+            tutorial = {
+                stage = -1,
             },
-            lowResOptimized = false,
-            slashRealUITyped = false,   -- To disable "Type /realui" message
+            tags = {
+                firsttime = true,
+                retinaDisplay = {
+                    checked = false,
+                    set = false,
+                },
+                lowResOptimized = false,
+                slashRealUITyped = false,   -- To disable "Type /realui" message
+            },
+            messages = {
+                resetNew = false,
+                largeHuDOption = false,
+            },
+            verinfo = {},
+            patchedTOC = 0
         },
-        messages = {
-            resetNew = false,
-            largeHuDOption = false,
+        char = {
+            init = charInit,
+            layout = {
+                current = 1,    -- 1 = DPS/Tank, 2 = Healing
+                needchanged = false,
+                spec = spec -- Save layout for each spec
+            },
         },
-        verinfo = {},
-    },
-    char = {
-        init = charInit,
-        layout = {
-            current = 1,    -- 1 = DPS/Tank, 2 = Healing
-            needchanged = false,
-            spec = {1, 1},  -- Save layout for each spec
+        profile = {
+            modules = {
+                ['*'] = true,
+                ["AchievementScreenshots"] = false,
+            },
+            registeredChars = {},
+            -- HuD positions
+            positionsLink = true,
+            positions = RealUI.defaultPositions,
+            -- Action Bar settings
+            abSettingsLink = false,
+            -- Dynamic UI settings
+            settings = {
+                powerMode = 1,  -- 1 = Normal, 2 = Economy, 3 = Turbo
+                fontStyle = 2,
+                infoLineBackground = true,
+                stripeOpacity = 0.5,
+                hudSize = 1,
+                reverseUnitFrameBars = false,
+            },
+            media = RealUI.media
         },
-    },
-    profile = {
-        modules = {
-            ['*'] = true,
-            ["AchievementScreenshots"] = false,
-        },
-        registeredChars = {},
-        -- HuD positions
-        positionsLink = true,
-        positions = RealUI.defaultPositions,
-        -- Action Bar settings
-        abSettingsLink = false,
-        -- Dynamic UI settings
-        settings = {
-            powerMode = 1,  -- 1 = Normal, 2 = Economy, 3 = Turbo
-            fontStyle = 2,
-            infoLineBackground = true,
-            stripeOpacity = 0.5,
-            hudSize = 1,
-            reverseUnitFrameBars = false,
-        },
-        media = RealUI.media
-    },
-}
+    }
+end
+
 --------------------------------------------------------
 
 -- Toggle Grid2's "Test Layout"
@@ -490,7 +500,11 @@ function RealUI:PLAYER_ENTERING_WORLD()
     local ConfigStr = ("|cffffffffReal|r|cff%sUI|r Config"):format(RealUI:ColorTableToStr(RealUI.media.colors.red))
     _G.GameMenuFrame.realuiControl = RealUI:CreateTextButton(ConfigStr, _G.GameMenuFrame, "GameMenuButtonTemplate")
     _G.GameMenuFrame.realuiControl:SetPoint("TOP", _G.GameMenuButtonContinue, "BOTTOM", 0, -16)
-    _G.GameMenuFrame.realuiControl:SetScript("OnMouseUp", function() RealUI:LoadConfig("HuD"); _G.HideUIPanel(_G.GameMenuFrame) end)
+    _G.GameMenuFrame.realuiControl:SetScript("OnMouseUp", function()
+        RealUI.Debug("Config", "GameMenuFrame")
+        RealUI:LoadConfig("HuD")
+        _G.HideUIPanel(_G.GameMenuFrame)
+    end)
 
     -- Button Backgrounds
     RealUI:CreateBGSection(_G.GameMenuFrame, _G.GameMenuButtonHelp, _G.GameMenuButtonWhatsNew)
@@ -633,16 +647,20 @@ function RealUI:ADDON_LOADED(event, addon)
 end
 
 function RealUI:ChatCommand_Config()
+    RealUI.Debug("Config", "/real")
     dbg.tags.slashRealUITyped = true
     RealUI:LoadConfig("HuD")
 end
 
 local configLoaded, configFailed = false, false
 function RealUI:LoadConfig(app, section, ...)
+    if _G.InCombatLockdown() then
+        return RealUI:Notification(L["Alert_CombatLockdown"], true, L["Alert_CantOpenInCombat"], nil, [[Interface\AddOns\nibRealUI\Media\Icons\Notification_Alert]])
+    end
     if not configLoaded then
-        configLoaded = true
-        local loaded, reason = _G.LoadAddOn("nibRealUI_Config")
-        if not loaded then
+        local reason
+        configLoaded, reason = _G.LoadAddOn("nibRealUI_Config")
+        if not configLoaded then
             _G.print("Failed to load nibRealUI_Config:", reason)
             configFailed = true
         end
@@ -696,7 +714,10 @@ function RealUI:OnInitialize()
     -- Chat Commands
     self:RegisterChatCommand("real", "ChatCommand_Config")
     self:RegisterChatCommand("realui", "ChatCommand_Config")
-    self:RegisterChatCommand("realadv", function() RealUI:LoadConfig("RealUI") end)
+    self:RegisterChatCommand("realadv", function()
+        RealUI.Debug("Config", "/realadv")
+        RealUI:LoadConfig("RealUI")
+    end)
     self:RegisterChatCommand("memory", "MemoryDisplay")
     self:RegisterChatCommand("rl", function() _G.ReloadUI() end)
     self:RegisterChatCommand("cpuProfiling", "CPU_Profiling_Toggle")
@@ -712,7 +733,17 @@ function RealUI:OnInitialize()
         end
         self:FindSpellID(spellName, unit, auraType)
     end)
-    _G.GameMenuFrame:HookScript("OnShow", function() _G.GameMenuFrame:SetHeight(_G.GameMenuFrame:GetHeight() + 27) end)
+    do
+        local settingHeight = false
+        _G.hooksecurefunc(_G.GameMenuFrame, "SetHeight", function(menuFrame, height)
+            debug("GameMenuFrame:SetHeight", height, settingHeight)
+            if not settingHeight then
+                settingHeight = true
+                menuFrame:SetHeight(height + (_G.C_StorePublic.IsEnabled() and 27 or 47))
+                settingHeight = false
+            end
+        end)
+    end
 
     -- Synch user's settings
     if dbg.tags.firsttime then

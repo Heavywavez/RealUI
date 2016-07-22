@@ -15,6 +15,9 @@ C.themes["Blizzard_AchievementUI"] = function()
 	for i = 1, 4 do
 		select(i, AchievementFrameHeader:GetRegions()):Hide()
 	end
+	if C.isBetaClient then
+		AchievementFrameHeaderLeftDDLInset:SetAlpha(0)
+	end
 	AchievementFrameHeaderRightDDLInset:SetAlpha(0)
 	select(2, AchievementFrameAchievements:GetChildren()):Hide()
 	AchievementFrameAchievementsBackground:Hide()
@@ -57,9 +60,40 @@ C.themes["Blizzard_AchievementUI"] = function()
 	end
 
 	AchievementFrameHeaderPoints:SetPoint("TOP", AchievementFrame, "TOP", 0, -6)
-	AchievementFrameFilterDropDown:SetPoint("TOPRIGHT", AchievementFrame, "TOPRIGHT", -98, 1)
+	if C.isBetaClient then
+		AchievementFrameFilterDropDown:SetPoint("TOPLEFT", 148, 1)
+		AchievementFrameFilterDropDown:SetPoint("TOPLEFT", 148, 1)
+		AchievementFrame.searchBox:ClearAllPoints()
+		AchievementFrame.searchBox:SetPoint("TOPRIGHT", -98, -3)
+		F.ReskinInput(AchievementFrame.searchBox, 20)
+
+		local function SkinSearchPreview(btn)
+			btn:SetNormalTexture(C.media.backdrop)
+			btn:GetNormalTexture():SetVertexColor(0.1, 0.1, 0.1, .9)
+			btn:SetPushedTexture(C.media.backdrop)
+			btn:GetPushedTexture():SetVertexColor(0.1, 0.1, 0.1, .9)
+		end
+		for i = 1, 5 do
+			local btn = AchievementFrame["searchPreview"..i]
+			SkinSearchPreview(btn)
+			btn.iconFrame:SetAlpha(0)
+			F.ReskinIcon(btn.icon)
+		end
+		SkinSearchPreview(AchievementFrame.showAllSearchResults)
+
+		local prevContainer = AchievementFrame.searchPreviewContainer
+		prevContainer:DisableDrawLayer("OVERLAY")
+		local bg = _G.CreateFrame("Frame", nil, prevContainer)
+		bg:SetPoint("TOPRIGHT", 1, 1)
+		bg:SetPoint("BOTTOMLEFT", prevContainer.borderAnchor, 6, 4)
+		bg:SetFrameLevel(prevContainer:GetFrameLevel() - 1)
+		F.CreateBD(bg)
+	else
+		AchievementFrameFilterDropDown:SetPoint("TOPRIGHT", -98, 1)
+	end
 	AchievementFrameFilterDropDownText:ClearAllPoints()
 	AchievementFrameFilterDropDownText:SetPoint("CENTER", -10, 1)
+	F.ReskinDropDown(AchievementFrameFilterDropDown)
 
 	AchievementFrameSummaryCategoriesStatusBar:SetStatusBarTexture(C.media.backdrop)
 	AchievementFrameSummaryCategoriesStatusBar:GetStatusBarTexture():SetGradient("VERTICAL", 0, .4, 0, 0, .6, 0)
@@ -133,25 +167,41 @@ C.themes["Blizzard_AchievementUI"] = function()
 
 		local left = ch:CreateTexture(nil, "BACKGROUND")
 		left:SetWidth(1)
-		left:SetTexture(0, 0, 0)
+		if C.isBetaClient then
+			left:SetColorTexture(0, 0, 0)
+		else
+			left:SetTexture(0, 0, 0)
+		end
 		left:SetPoint("TOPLEFT", tex, -1, 1)
 		left:SetPoint("BOTTOMLEFT", tex, -1, -1)
 
 		local right = ch:CreateTexture(nil, "BACKGROUND")
 		right:SetWidth(1)
-		right:SetTexture(0, 0, 0)
+		if C.isBetaClient then
+			right:SetColorTexture(0, 0, 0)
+		else
+			right:SetTexture(0, 0, 0)
+		end
 		right:SetPoint("TOPRIGHT", tex, 1, 1)
 		right:SetPoint("BOTTOMRIGHT", tex, 1, -1)
 
 		local top = ch:CreateTexture(nil, "BACKGROUND")
 		top:SetHeight(1)
-		top:SetTexture(0, 0, 0)
+		if C.isBetaClient then
+			top:SetColorTexture(0, 0, 0)
+		else
+			top:SetTexture(0, 0, 0)
+		end
 		top:SetPoint("TOPLEFT", tex, -1, 1)
 		top:SetPoint("TOPRIGHT", tex, 1, -1)
 
 		local bottom = ch:CreateTexture(nil, "BACKGROUND")
 		bottom:SetHeight(1)
-		bottom:SetTexture(0, 0, 0)
+		if C.isBetaClient then
+			bottom:SetColorTexture(0, 0, 0)
+		else
+			bottom:SetTexture(0, 0, 0)
+		end
 		bottom:SetPoint("BOTTOMLEFT", tex, -1, -1)
 		bottom:SetPoint("BOTTOMRIGHT", tex, 1, -1)
 	end
@@ -194,7 +244,11 @@ C.themes["Blizzard_AchievementUI"] = function()
 		if not bar.reskinned then
 			bar:SetStatusBarTexture(C.media.backdrop)
 
-			_G["AchievementFrameProgressBar"..index.."BG"]:SetTexture(0, 0, 0, .25)
+			if C.isBetaClient then
+				_G["AchievementFrameProgressBar"..index.."BG"]:SetColorTexture(0, 0, 0, .25)
+			else
+				_G["AchievementFrameProgressBar"..index.."BG"]:SetTexture(0, 0, 0, .25)
+			end
 			_G["AchievementFrameProgressBar"..index.."BorderLeft"]:Hide()
 			_G["AchievementFrameProgressBar"..index.."BorderCenter"]:Hide()
 			_G["AchievementFrameProgressBar"..index.."BorderRight"]:Hide()
@@ -369,5 +423,4 @@ C.themes["Blizzard_AchievementUI"] = function()
 	F.ReskinScroll(AchievementFrameStatsContainerScrollBar)
 	F.ReskinScroll(AchievementFrameCategoriesContainerScrollBar)
 	F.ReskinScroll(AchievementFrameComparisonContainerScrollBar)
-	F.ReskinDropDown(AchievementFrameFilterDropDown)
 end

@@ -15,7 +15,7 @@ RealUI.name = _G.UnitName("player")
 RealUI.realm = _G.GetRealmName()
 RealUI.faction = _G.UnitFactionGroup("player")
 RealUI.classLocale, RealUI.class, RealUI.classID = _G.UnitClass("player")
-RealUI.classColor = _G.CUSTOM_CLASS_COLORS and _G.CUSTOM_CLASS_COLORS[RealUI.class] or _G.RAID_CLASS_COLORS[RealUI.class]
+RealUI.numSpecs = _G.GetNumSpecializationsForClassID(RealUI.classID)
 
 RealUI.globals = {
     anchorPoints = {
