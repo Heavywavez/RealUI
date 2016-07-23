@@ -2,35 +2,32 @@ local ADDON_NAME, private = ...
 
 -- Lua Globals --
 local _G = _G
+local select, tostring = _G.select, _G.tostring
 local next, ipairs = _G.next, _G.ipairs
 local floor = _G.math.floor
 
 -- RealUI --
 local Mod, Skin = {}, {}
-local isInGlue = _G.InGlue()
-local Debug
-if isInGlue then
-    private.GlueXML = {}
-    Debug = _G.RealUIDebug or _G.nop
-else
-    private.FrameXML = {}
-    Debug = _G.RealUI and _G.RealUI.GetDebug("Skins") or _G.nop
-end
-local function debug(...)
-    if private.debugEnabled then
-        Debug(...)
-    end
-end
-private.DebugXML = {}
-private.AddOns = {}
-
 _G.RealUI_Skins = {Mod = Mod, Skin = Skin}
 private.Mod = Mod
 private.Skin = Skin
 
-private.isInGlue = isInGlue
-private.debug = debug
+private.FrameXML = {}
+private.DebugXML = {}
+private.AddOns = {}
+
 private.classColor = { r = 0.0, g = 0.8 , b = 1.0, colorStr = "ff00ccff" }
+
+local debugStack = {}
+local function debug(...)
+    local text = ""
+    for i = 1, select("#", ...) do
+        local arg = select(i, ...)
+        text = text .. "     " .. tostring(arg)
+    end
+    _G.tinsert(debugStack, text)
+end
+private.debug = debug
 
 -- debugMode: -1 == default | 0 == -1 + skin
 --             1 == 0 + hidden frames | 2 == 1 - skin
@@ -73,17 +70,13 @@ local defaults = {
 local events = _G.CreateFrame("Frame")
 events:RegisterEvent("ADDON_LOADED")
 events:SetScript("OnEvent", function(self, event, ...)
-    if not isInGlue then
-        debug(event, ...)
-    end
+    debug(event, ...)
     if events[event] then
         events[event](events, ...)
     else
         debug("GetScreenHeight", _G.GetScreenHeight())
-        if not isInGlue then
-            debug("UIParent:GetSize", _G.UIParent:GetSize())
-            self:UnregisterEvent(event)
-        end
+        debug("UIParent:GetSize", _G.UIParent:GetSize())
+        self:UnregisterEvent(event)
     end
 end)
 function events:ADDON_LOADED(addonName)
@@ -93,13 +86,12 @@ function events:ADDON_LOADED(addonName)
         local screenResolutions = {_G.GetScreenResolutions()}
         local uiHeight = screenResolutions[_G.GetCurrentResolution()]:match("%d+x(%d+)")
         local uiScale = 768 / uiHeight
-        private.uiMod = (uiHeight / 768) * (isInGlue and 1 or _G.RealUI_SkinsDB.realUIScale)
+        private.uiMod = (uiHeight / 768) * _G.RealUI_SkinsDB.realUIScale
         debug("UISize", uiHeight, uiScale, private.uiMod)
         private.uiScale = uiScale
 
-        local parent = isInGlue and _G.GlueParent or _G.UIParent
-        if uiScale < .64 or isInGlue then
-            parent:SetScale(uiScale)
+        if uiScale < .64 then
+            _G.UIParent:SetScale(uiScale)
         elseif uiScale ~= _G.tonumber(_G.GetCVar("uiScale")) then
             _G.SetCVar("useUiScale", 1)
             _G.SetCVar("uiScale", uiScale)
@@ -112,12 +104,17 @@ function events:ADDON_LOADED(addonName)
                 end
             end
             if debugMode < 2 then
-                local uiXML = private.GlueXML or private.FrameXML
-                for index, func in ipairs(uiXML) do
+                for index, func in ipairs(private.FrameXML) do
                     func()
                 end
             end
         end
+    elseif addonName == "nibRealUI" then
+        debug = _G.RealUI.GetDebug("Skins")
+        for i = 1, #debugStack do
+            debug(debugStack[i])
+        end
+        _G.wipe(debugStack)
     elseif addonName:match("Blizzard") then
         local func = private.AddOns[addonName]
         if func then

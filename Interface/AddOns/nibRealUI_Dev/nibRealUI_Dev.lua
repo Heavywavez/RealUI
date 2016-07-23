@@ -117,7 +117,3 @@ frame:SetScript("OnEvent", function(self, event, ...)
         self:UnregisterEvent(event)
     end
 end)
-
-if isInGlue then
-    _G.RealUIDebug = debug
-end
