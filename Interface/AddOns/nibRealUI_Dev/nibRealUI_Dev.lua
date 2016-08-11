@@ -87,17 +87,12 @@ for i = 1, #BlizzAddons do
     end
 end
 
-for i = 1, _G.GetNumAddOns() do
-    local loaded = _G.IsAddOnLoaded(i)
-    if loaded then
-        debug("Pre-loaded:", _G.GetAddOnInfo(i))
-    end
-end
-
+local eventWhitelist = {
+    BAG_UPDATE = true
+}
 local frame = _G.CreateFrame("Frame")
 frame:RegisterAllEvents()
 frame:SetScript("OnEvent", function(self, event, ...)
-    debug(event, ...)
     if event == "ADDON_LOADED" then
         local addonName = ...
         if addonName:match("Blizzard") or addonName:match("RealUI") then
@@ -112,8 +107,11 @@ frame:SetScript("OnEvent", function(self, event, ...)
             self:UnregisterEvent("ADDON_LOADED")
         end
     else
+        debug(event, ...)
         debug("GetScreenHeight", _G.GetScreenHeight())
         debug("UIParent:GetSize", _G.UIParent:GetSize())
-        self:UnregisterEvent(event)
+        if not eventWhitelist[event] then
+            self:UnregisterEvent(event)
+        end
     end
 end)

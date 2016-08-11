@@ -8,8 +8,6 @@ local next = _G.next
 local RealUI = private.RealUI
 local round = RealUI.Round
 local db, ndb
-local isBeta = RealUI.isBeta
-local Skin = _G.RealUI_Skins.Skin
 
 local MODNAME = "CastBars"
 local CastBars = RealUI:NewModule(MODNAME, "AceEvent-3.0", "AceTimer-3.0")
@@ -29,34 +27,20 @@ do
     end
 
     -- Druid
-    if not isBeta then
-        RegisterSpellName(16914, 10)  -- Hurricane
-        RegisterSpellName(106996, 10) -- Astral Storm
-    end
     RegisterSpellName(740, 4) -- Tranquility
 
     -- Mage
     RegisterSpellName(5143, 5)  -- Arcane Missiles
-    if not isBeta then
-        RegisterSpellName(10, 8) -- Blizzard
-    end
     RegisterSpellName(12051, 3) -- Evocation
 
     -- Monk
     RegisterSpellName(117952, 4) -- Crackling Jade Lightning
-    if isBeta then
-        RegisterSpellName(191837, 2)  -- Essence Font
-    else
-        RegisterSpellName(115294, 6)  -- Mana Tea
-    end
+    RegisterSpellName(191837, 2)  -- Essence Font
     RegisterSpellName(113656, 4) -- Fists of Fury
 
     -- Priest
     RegisterSpellName(64843, 4) -- Divine Hymn
     RegisterSpellName(15407, 3) -- Mind Flay
-    if not isBeta then
-        RegisterSpellName(129197, 3) -- Mind Flay (Insanity)
-    end
     RegisterSpellName(48045, 5) -- Mind Sear
     RegisterSpellName(47540, 2) -- Penance
 
@@ -64,10 +48,6 @@ do
     RegisterSpellName(689, 6)  -- Drain Life
     RegisterSpellName(755, 6)  -- Health Funnel
     RegisterSpellName(4629, 6) -- Rain of Fire
-    if not isBeta then
-        RegisterSpellName(103103, 6) -- Drain Soul
-        RegisterSpellName(108371, 6) -- Harvest Life
-    end
 end
 
 -- Chanelling Ticks
@@ -90,14 +70,14 @@ end
 function CastBars:SetAnchors(castbar, unit)
     CastBars:debug("Set config cast", unit)
 
-    local iconX, iconY = 1, -1
+    local iconX, iconY = 3, -2
     local iconPoint, iconRelPoint = "TOP", "BOTTOM"
     if not db.text.textOnBottom then
         iconPoint, iconRelPoint = "BOTTOM", "TOP"
         iconY = -iconY
     end
 
-    local textX, textY = 1, -2
+    local textX, textY = 0, -2
     local textPoint, textRelPoint = "TOP", "TOP"
     local timePoint, timeRelPoint = "BOTTOM", "BOTTOM"
 
@@ -378,15 +358,10 @@ function CastBars:CreateCastBars(unitFrame, unit)
         Castbar:SetReverseFill(true)
     end
 
-    local Icon = _G.CreateFrame("Frame", nil, Castbar)
+    local Icon = Castbar:CreateTexture(nil, "OVERLAY")
     Castbar.Icon = Icon
     Icon:SetSize(unitDB.icon, unitDB.icon)
-    Skin.Backdrop(Icon)
-    function Icon:SetTexture(texture)
-        Icon.tex:SetTexture(texture)
-    end
-    Icon.tex = Icon:CreateTexture(nil, "OVERLAY")
-    Skin.Icon(Icon.tex)
+    _G.Aurora[1].ReskinIcon(Icon)
 
     local Text = Castbar:CreateFontString(nil, "OVERLAY")
     Castbar.Text = Text
